@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ai-mate - Your AI Tools Dashboard</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/app.css" />
+</head>
+<body class="app-body">
+  <header class="app-header">
+    <div class="header-content">
+      <h1 class="app-title">
+        <span class="app-icon">✨</span>
+        Ai-mate Workspace
+      </h1>
+      <div class="header-actions">
+        <button class="btn-primary" id="newProjectBtn" >
+          <span>+</span> New Project
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="projects-container">
+    <div class="ai-tools-section">
+      <h3>AI Tools Available</h3>
+      <div class="ai-tools-grid">
+        <a href="character-animation.html" class="ai-tool-card active-tool" data-tool="ai-nimate" style="text-decoration: none; color: inherit; cursor: pointer; position: relative; overflow: hidden;">
+          <div class="tool-header">🎬</div>
+          <h4>AI-nimate</h4>
+          <p>Transform static images into smooth animations with AI-powered frame interpolation</p>
+          <span style="position: absolute; top: 8px; right: 8px; background: var(--color-accent); color: white; font-size: 0.65rem; padding: 2px 8px; border-radius: 10px; font-weight: 600;">Try Now</span>
+        </a>
+        <div class="ai-tool-card" data-tool="sync-voice" style="opacity: 0.7;">
+          <div class="tool-header">🎤</div>
+          <h4>SyncYourVoice</h4>
+          <p>Automatically sync character lip movements to any audio with realistic expressions</p>
+          <span style="position: absolute; top: 8px; right: 8px; background: #e0e0e0; color: #666; font-size: 0.65rem; padding: 2px 8px; border-radius: 10px;">Coming Soon</span>
+        </div>
+        <a href="proto-animate.html" class="ai-tool-card active-tool" data-tool="proto-animate" style="text-decoration: none; color: inherit; cursor: pointer; position: relative; overflow: hidden;">
+          <div class="tool-header">✨</div>
+          <h4>ProtoAnimate</h4>
+          <p>Turn rough sketches and text descriptions into polished animation prototypes</p>
+          <span style="position: absolute; top: 8px; right: 8px; background: #9c27b0; color: white; font-size: 0.65rem; padding: 2px 8px; border-radius: 10px; font-weight: 600;">Try Now</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="projects-header">
+      <h2>Your AI Animation Projects</h2>
+      <div class="view-controls">
+        <button class="view-btn active" data-view="grid" title="Grid View">
+          <span>⊞</span>
+        </button>
+        <button class="view-btn" data-view="list" title="List View">
+          <span>☰</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="projects-grid" id="projectsGrid">
+      <div class="project-card" data-project-id="1" data-project-url="project.html">
+        <div class="project-thumbnail">
+          <video class="project-video-thumb" muted loop>
+            <source src="media/CharacterAnimation/Untitled design.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="project-info">
+          <h3 class="project-name">Character Animation Demo</h3>
+          <p class="project-meta">Enhanced with AI-nimate • Frame Interpolation</p>
+          <div class="project-actions">
+            <button class="btn-open" data-action="open">Open</button>
+            <button class="btn-menu" data-action="menu">⋯</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card" data-project-id="2" data-project-url="project-proto.html">
+        <div class="project-thumbnail">
+          <video class="project-video-thumb" muted loop>
+            <source src="media/ProtoAnimate/Untitled design-2.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="project-info">
+          <h3 class="project-name">ProtoAnimate Demo</h3>
+          <p class="project-meta">Created with ProtoAnimate • Idea to Animation</p>
+          <div class="project-actions">
+            <button class="btn-open" data-action="open">Open</button>
+            <button class="btn-menu" data-action="menu">⋯</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card new-project-card" id="emptyProjectCard">
+        <div class="new-project-content">
+          <span class="new-project-icon">+</span>
+          <p>Create New Project</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="projects-list hidden" id="projectsList">
+      <!-- List view will be populated here -->
+    </div>
+  </main>
+
+  <!-- New Project Modal -->
+  <div class="modal-overlay hidden" id="newProjectModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>Create New Project</h2>
+        <button class="modal-close" id="closeModal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="newProjectForm">
+          <div class="form-group">
+            <label for="projectName">Project Name</label>
+            <input type="text" id="projectName" placeholder="Enter project name" required />
+          </div>
+          <div class="form-group">
+            <label for="projectTemplate">AI Tool (Optional)</label>
+            <select id="projectTemplate">
+              <option value="">Blank Project</option>
+              <option value="ai-nimate">AI-nimate - Frame Enhancement</option>
+              <option value="sync-voice">SyncYourVoice - Lip-Sync</option>
+              <option value="proto-animate">ProtoAnimate - Prototyping</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="projectType">Project Type</label>
+            <select id="projectType">
+              <option value="2d">2D Animation</option>
+              <option value="3d">3D Animation</option>
+              <option value="mixed">Mixed Media</option>
+            </select>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" id="cancelProject">Cancel</button>
+        <button class="btn-primary" id="createProject">Create Project</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/auth.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/projects.js"></script>
+</body>
+</html>
+
+

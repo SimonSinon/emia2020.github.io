@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ai-mate Editor | ProtoAnimate Workspace</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/app.css" />
+</head>
+<body class="editor-body">
+  <!-- Top Toolbar -->
+  <header class="editor-header">
+    <div class="editor-header-left">
+      <button class="icon-btn" id="backBtn" title="Back to Dashboard" onclick="window.location.href='projects.html'">
+        <span>←</span>
+      </button>
+      <div class="project-title-group">
+        <h1 class="project-title" id="projectTitle">ProtoAnimate Demo</h1>
+        <button class="icon-btn small" id="renameProject" title="Rename Project">
+          <span>✎</span>
+        </button>
+      </div>
+    </div>
+    <div class="editor-header-right">
+      <button class="icon-btn ai-tool-btn" id="aiToolsBtn" title="AI Tools">
+        <span class="btn-icon">✨</span>
+        <span class="btn-label">AI Tools</span>
+      </button>
+      <button class="icon-btn" id="uploadBtn" title="Upload Files">
+        <span class="btn-icon">📁</span>
+        <span class="btn-label">Import</span>
+      </button>
+      <button class="icon-btn" id="downloadBtn" title="Export Project">
+        <span class="btn-icon">💾</span>
+        <span class="btn-label">Export</span>
+      </button>
+      <button class="icon-btn icon-only" id="functionsToggleBtn" title="AI Functions Panel">
+        <span class="btn-icon">⚡</span>
+      </button>
+      <button class="icon-btn icon-only" id="toolsToggleBtn" title="Drawing Tools">
+        <span class="btn-icon">🎨</span>
+      </button>
+      <button class="icon-btn icon-only" id="settingsBtn" title="Settings">
+        <span class="btn-icon">⚙️</span>
+      </button>
+      <button class="icon-btn icon-only" id="userMenuBtn" title="Account">
+        <span class="btn-icon">👤</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- User Menu Dropdown -->
+  <div class="user-menu-dropdown hidden" id="userMenuDropdown">
+    <div class="user-menu-header">
+      <div class="user-avatar">👤</div>
+      <div class="user-info">
+        <div class="user-name" id="userMenuName">User</div>
+        <div class="user-email" id="userMenuEmail">user@example.com</div>
+      </div>
+    </div>
+    <div class="user-menu-divider"></div>
+    <button class="user-menu-item" id="accountSettings">
+      <span>⚙</span> Account Settings
+    </button>
+    <button class="user-menu-item" id="backToDashboard">
+      <span>📊</span> Back to Dashboard
+    </button>
+    <div class="user-menu-divider"></div>
+    <button class="user-menu-item logout" id="logoutFromEditor">
+      <span>↗</span> Logout
+    </button>
+  </div>
+
+  <!-- Main Editor Layout -->
+  <div class="editor-layout">
+    <!-- Sidebar File Explorer -->
+    <aside class="file-explorer" id="fileExplorer">
+      <div class="explorer-header">
+        <h3>Files</h3>
+        <div class="explorer-actions">
+          <button class="icon-btn small" id="newFileBtn" title="New File">
+            <span>+</span>
+          </button>
+          <button class="icon-btn small" id="newFolderBtn" title="New Folder">
+            <span>📁</span>
+          </button>
+          <button class="icon-btn small" id="refreshExplorer" title="Refresh">
+            <span>↻</span>
+          </button>
+        </div>
+      </div>
+      <div class="explorer-content">
+        <div class="file-tree" id="fileTree">
+          <div class="tree-item folder expanded" data-path="/">
+            <div class="tree-item-content">
+              <span class="tree-icon">📁</span>
+              <span class="tree-label">root</span>
+            </div>
+            <div class="tree-children">
+              <div class="tree-item file" data-path="/main.anim">
+                <div class="tree-item-content">
+                  <span class="tree-icon">📄</span>
+                  <span class="tree-label">main.anim</span>
+                </div>
+              </div>
+              <div class="tree-item file" data-path="/config.json">
+                <div class="tree-item-content">
+                  <span class="tree-icon">📄</span>
+                  <span class="tree-label">config.json</span>
+                </div>
+              </div>
+              <div class="tree-item folder" data-path="/assets">
+                <div class="tree-item-content">
+                  <span class="tree-icon">📁</span>
+                  <span class="tree-label">assets</span>
+                </div>
+                <div class="tree-children">
+                  <div class="tree-item file" data-path="/assets/sketch.jpg">
+                    <div class="tree-item-content">
+                      <span class="tree-icon">🖼️</span>
+                      <span class="tree-label">sketch.jpg</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Animation Tools Panel -->
+    <aside class="tools-panel" id="toolsPanel">
+      <div class="tools-header">
+        <h3>Tools</h3>
+        <button class="icon-btn small" id="toggleToolsPanel" title="Toggle Tools Panel">
+          <span>◀</span>
+        </button>
+      </div>
+      <div class="tools-content">
+        <div class="tool-section">
+          <h4 class="tool-section-title">Drawing</h4>
+          <div class="tool-grid" id="drawingTools">
+            <!-- Tools will be dynamically added here -->
+          </div>
+        </div>
+        <div class="tool-section">
+          <h4 class="tool-section-title">Rigging</h4>
+          <div class="tool-grid" id="riggingTools">
+            <!-- Tools will be dynamically added here -->
+          </div>
+        </div>
+        <div class="tool-section">
+          <h4 class="tool-section-title">Transform</h4>
+          <div class="tool-grid" id="transformTools">
+            <!-- Tools will be dynamically added here -->
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="editor-main">
+      <!-- Viewport Toolbar -->
+      <div class="viewport-toolbar">
+        <div class="viewport-controls-left">
+          <button class="icon-btn small" id="zoomOutBtn" title="Zoom Out">
+            <span>−</span>
+          </button>
+          <span class="zoom-level" id="zoomLevel">100%</span>
+          <button class="icon-btn small" id="zoomInBtn" title="Zoom In">
+            <span>+</span>
+          </button>
+          <button class="icon-btn small" id="fitToScreenBtn" title="Fit to Screen">
+            <span>⛶</span>
+          </button>
+        </div>
+        <div class="viewport-controls-center">
+          <div class="frame-info">
+            <span>Frame: <strong id="currentFrame">1</strong> / <strong id="totalFrames">60</strong></span>
+            <span class="separator">|</span>
+            <span>FPS: <strong id="fpsDisplay">24</strong></span>
+          </div>
+        </div>
+        <div class="viewport-controls-right">
+          <button class="icon-btn small" id="gridToggleBtn" title="Toggle Grid">
+            <span>⊞</span>
+          </button>
+          <button class="icon-btn small" id="rulerToggleBtn" title="Toggle Rulers">
+            <span>📏</span>
+          </button>
+          <button class="icon-btn small" id="onionSkinToggleBtn" title="Toggle Onion Skin">
+            <span>🧅</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Canvas Viewport -->
+      <div class="viewport-container" id="viewportContainer">
+        <div class="viewport-rulers hidden" id="viewportRulers">
+          <div class="ruler-horizontal" id="rulerH">
+            <div class="ruler-marker" style="left: 50%">0</div>
+          </div>
+          <div class="ruler-vertical" id="rulerV">
+            <div class="ruler-marker" style="top: 50%">0</div>
+          </div>
+        </div>
+        <div class="canvas-wrapper" id="canvasWrapper">
+          <!-- Demo Video Preview -->
+          <div class="video-preview-container" id="videoPreviewContainer">
+            <video id="demoVideo" loop muted>
+              <source src="media/ProtoAnimate/Untitled design-2.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+            <div class="video-controls-overlay">
+              <div class="video-mode-badge">
+                <span>📹</span> Preview Mode
+              </div>
+              <button class="switch-mode-btn" id="switchToCanvasBtn" title="Switch to Canvas Mode">
+                <span>🎨</span> Switch to Canvas
+              </button>
+            </div>
+          </div>
+          <!-- Canvas for Drawing -->
+          <canvas id="animationCanvas" width="1920" height="1080" class="hidden"></canvas>
+          <div class="canvas-grid hidden" id="canvasGrid"></div>
+          <div class="canvas-overlay hidden" id="canvasOverlay">
+            <div class="canvas-placeholder">
+              <div class="placeholder-icon">🎬</div>
+              <h3>Animation Canvas</h3>
+              <p>Select a tool from the tools panel to start drawing or rigging your animation</p>
+              <button class="switch-mode-btn" id="switchToVideoBtn" title="Switch to Video Preview">
+                <span>📹</span> Switch to Video Preview
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Playback Controls -->
+      <div class="playback-controls">
+        <button class="playback-btn" id="firstFrameBtn" title="Go to First Frame">
+          <span class="playback-icon">⏮</span>
+          <span class="playback-label">Start</span>
+        </button>
+        <button class="playback-btn" id="prevFrameBtn" title="Previous Frame">
+          <span class="playback-icon">◀</span>
+          <span class="playback-label">Prev</span>
+        </button>
+        <button class="playback-btn primary" id="playPauseBtn" title="Play/Pause Animation">
+          <span class="playback-icon" id="playPauseIcon">▶</span>
+          <span class="playback-label" id="playPauseLabel">Play</span>
+        </button>
+        <button class="playback-btn" id="nextFrameBtn" title="Next Frame">
+          <span class="playback-icon">▶</span>
+          <span class="playback-label">Next</span>
+        </button>
+        <button class="playback-btn" id="lastFrameBtn" title="Go to Last Frame">
+          <span class="playback-icon">⏭</span>
+          <span class="playback-label">End</span>
+        </button>
+        <div class="playback-separator"></div>
+        <button class="playback-btn" id="loopToggleBtn" title="Toggle Loop Playback">
+          <span class="playback-icon">🔄</span>
+          <span class="playback-label">Loop</span>
+        </button>
+      </div>
+
+      <!-- Timeline -->
+      <div class="timeline-container" id="timelineContainer">
+        <div class="timeline-header">
+          <div class="timeline-header-left">
+            <h4>Timeline</h4>
+            <button class="icon-btn small" id="timelineCollapseBtn" title="Collapse Timeline">
+              <span>▼</span>
+            </button>
+          </div>
+          <div class="timeline-header-right">
+            <button class="icon-btn small" id="addLayerBtn" title="Add Layer">
+              <span>+</span>
+            </button>
+            <button class="icon-btn small" id="timelineSettingsBtn" title="Timeline Settings">
+              <span>⚙</span>
+            </button>
+          </div>
+        </div>
+        <div class="timeline-content">
+          <div class="timeline-layers" id="timelineLayers">
+            <div class="timeline-layer-row active">
+              <span class="timeline-layer-icon">🎨</span>
+              <span class="timeline-layer-name">Layer 1</span>
+              <div class="timeline-layer-controls">
+                <button class="timeline-layer-btn" title="Toggle Visibility">👁</button>
+                <button class="timeline-layer-btn" title="Lock Layer">🔓</button>
+              </div>
+            </div>
+            <div class="timeline-layer-row">
+              <span class="timeline-layer-icon">✏️</span>
+              <span class="timeline-layer-name">Background</span>
+              <div class="timeline-layer-controls">
+                <button class="timeline-layer-btn" title="Toggle Visibility">👁</button>
+                <button class="timeline-layer-btn" title="Lock Layer">🔒</button>
+              </div>
+            </div>
+          </div>
+          <div class="timeline-scrubber-area" id="timelineScrubberArea">
+            <div class="timeline-frames" id="timelineFrames">
+              <!-- Frame markers will be dynamically added here -->
+            </div>
+            <div class="timeline-tracks" id="timelineTracks">
+              <div class="timeline-track-row"></div>
+              <div class="timeline-track-row"></div>
+            </div>
+            <div class="timeline-playhead" id="timelinePlayhead">
+              <div class="playhead-line"></div>
+              <div class="playhead-handle"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Sidebar Panels -->
+    <aside class="right-sidebar" id="rightSidebar">
+      <!-- Layers Panel -->
+      <div class="panel-section" id="layersPanel">
+        <div class="panel-header">
+          <h3>Layers</h3>
+          <div class="panel-actions">
+            <button class="icon-btn small" id="addLayerSidebarBtn" title="Add Layer">
+              <span>+</span>
+            </button>
+            <button class="icon-btn small" id="toggleLayersPanel" title="Collapse Layers">
+              <span>▼</span>
+            </button>
+          </div>
+        </div>
+        <div class="panel-content layers-content" id="layersContent">
+          <div class="layers-list" id="layersList">
+            <!-- Layers will be dynamically added here -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Properties Panel -->
+      <div class="panel-section" id="propertiesPanel">
+        <div class="panel-header">
+          <h3>Properties</h3>
+          <button class="icon-btn small" id="togglePropertiesPanel" title="Collapse Properties">
+            <span>▼</span>
+          </button>
+        </div>
+        <div class="panel-content properties-content" id="propertiesContent">
+          <div class="properties-placeholder">
+            <p>Select an object to view properties</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Functions Panel -->
+      <div class="panel-section hidden" id="functionsPanel">
+        <div class="panel-header">
+          <h3>Animation Functions</h3>
+          <button class="icon-btn small" id="toggleFunctionsPanel" title="Collapse Functions">
+            <span>×</span>
+          </button>
+        </div>
+        <div class="panel-content functions-content">
+          <div class="functions-list" id="functionsList">
+            <!-- Function cards will be rendered here -->
+          </div>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <!-- Upload Modal -->
+  <div class="modal-overlay hidden" id="uploadModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>Upload Files or Folder</h2>
+        <button class="modal-close" id="closeUploadModal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="upload-area" id="uploadArea">
+          <div class="upload-icon">📤</div>
+          <p>Drag and drop files or folders here</p>
+          <p class="upload-hint">or</p>
+          <button class="btn-primary" id="browseFiles">Browse Files</button>
+          <input type="file" id="fileInput" multiple style="display: none;" />
+          <input type="file" id="folderInput" webkitdirectory style="display: none;" />
+        </div>
+        <div class="upload-list hidden" id="uploadList">
+          <h3>Files to Upload:</h3>
+          <ul id="uploadFilesList"></ul>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" id="cancelUpload">Cancel</button>
+        <button class="btn-primary" id="confirmUpload">Upload</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- New File/Folder Modal -->
+  <div class="modal-overlay hidden" id="newItemModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 id="newItemTitle">Create New File</h2>
+        <button class="modal-close" id="closeNewItemModal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="newItemForm">
+          <div class="form-group">
+            <label id="newItemLabel">File Name</label>
+            <input type="text" id="newItemName" placeholder="Enter name" required />
+            <small class="form-hint">Include extension (e.g., .anim, .js, .json)</small>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" id="cancelNewItem">Cancel</button>
+        <button class="btn-primary" id="createNewItem">Create</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- AI Tools Modal -->
+  <div class="modal-overlay hidden" id="aiToolsModal">
+    <div class="modal" style="max-width: 600px;">
+      <div class="modal-header">
+        <h2>✨ AI Tools</h2>
+        <button class="modal-close" id="closeAIToolsModal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div style="display: grid; gap: 1rem;">
+          <a href="proto-animate.html" class="ai-tool-card" style="display: flex; align-items: center; gap: 1rem; padding: 1.25rem; background: linear-gradient(135deg, #f5f0ff 0%, #fff 100%); border: 1px solid rgba(138, 43, 226, 0.2); border-radius: 12px; text-decoration: none; color: inherit; transition: all 0.2s;">
+            <div style="font-size: 2.5rem;">✏️</div>
+            <div>
+              <h3 style="margin: 0 0 0.25rem; font-size: 1.1rem; color: #1a1a1a;">ProtoAnimate</h3>
+              <p style="margin: 0; font-size: 0.9rem; color: #666;">Convert rough sketches into polished animations</p>
+            </div>
+            <div style="margin-left: auto; color: var(--color-accent);">→</div>
+          </a>
+          <a href="character-animation.html" class="ai-tool-card" style="display: flex; align-items: center; gap: 1rem; padding: 1.25rem; background: #f9f9f9; border: 1px solid rgba(0,0,0,0.08); border-radius: 12px; text-decoration: none; color: inherit;">
+            <div style="font-size: 2.5rem;">🎬</div>
+            <div>
+              <h3 style="margin: 0 0 0.25rem; font-size: 1.1rem; color: #1a1a1a;">Frame Interpolation</h3>
+              <p style="margin: 0; font-size: 0.9rem; color: #666;">Generate smooth transitions between keyframes using AI</p>
+            </div>
+            <div style="margin-left: auto; color: #999;">→</div>
+          </a>
+          <div class="ai-tool-card" style="display: flex; align-items: center; gap: 1rem; padding: 1.25rem; background: #f9f9f9; border: 1px solid rgba(0,0,0,0.08); border-radius: 12px; opacity: 0.6;">
+            <div style="font-size: 2.5rem;">🎨</div>
+            <div>
+              <h3 style="margin: 0 0 0.25rem; font-size: 1.1rem; color: #1a1a1a;">Style Transfer</h3>
+              <p style="margin: 0; font-size: 0.9rem; color: #666;">Apply artistic styles to your animations</p>
+            </div>
+            <div style="margin-left: auto; font-size: 0.75rem; background: #e0e0e0; padding: 0.25rem 0.5rem; border-radius: 4px;">Coming Soon</div>
+          </div>
+          <div class="ai-tool-card" style="display: flex; align-items: center; gap: 1rem; padding: 1.25rem; background: #f9f9f9; border: 1px solid rgba(0,0,0,0.08); border-radius: 12px; opacity: 0.6;">
+            <div style="font-size: 2.5rem;">🤖</div>
+            <div>
+              <h3 style="margin: 0 0 0.25rem; font-size: 1.1rem; color: #1a1a1a;">Motion Prediction</h3>
+              <p style="margin: 0; font-size: 0.9rem; color: #666;">AI-powered motion continuation and prediction</p>
+            </div>
+            <div style="margin-left: auto; font-size: 0.75rem; background: #e0e0e0; padding: 0.25rem 0.5rem; border-radius: 4px;">Coming Soon</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/auth.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/editor.js"></script>
+</body>
+</html>

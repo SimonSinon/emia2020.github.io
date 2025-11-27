@@ -1,0 +1,1254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ProtoAnimate | AI Prototyping</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/app.css" />
+  <style>
+    /* ProtoAnimate Page Specific Styles */
+    .animation-page {
+      min-height: 100vh;
+      background: var(--color-bg-primary);
+    }
+
+    .animation-header {
+      background: #fff;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .animation-header-left {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .back-btn {
+      background: transparent;
+      border: 1px solid rgba(0, 0, 0, 0.15);
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+    }
+
+    .back-btn:hover {
+      background: rgba(0, 0, 0, 0.03);
+    }
+
+    .animation-title {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .animation-title h1 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    .animation-title .badge {
+      background: #f3e5f5;
+      color: #9c27b0;
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .animation-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    /* Step Indicator */
+    .steps-indicator {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 3rem;
+      flex-wrap: wrap;
+    }
+
+    .step {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      background: #fff;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      border-radius: 30px;
+      font-size: 0.9rem;
+      color: var(--color-text-secondary);
+      transition: all 0.3s;
+    }
+
+    .step.active {
+      background: #9c27b0;
+      border-color: #9c27b0;
+      color: #fff;
+    }
+
+    .step.completed {
+      background: #e8f5e9;
+      border-color: #4caf50;
+      color: #2e7d32;
+    }
+
+    .step-number {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 0.8rem;
+    }
+
+    .step.active .step-number {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    .step.completed .step-number {
+      background: #4caf50;
+      color: #fff;
+    }
+
+    .step-connector {
+      width: 40px;
+      height: 2px;
+      background: rgba(0, 0, 0, 0.1);
+      align-self: center;
+    }
+
+    .step-connector.completed {
+      background: #4caf50;
+    }
+
+    /* Input Section */
+    .input-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .input-card {
+      background: #fff;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      border-radius: 16px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .input-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .input-header h3 {
+      margin: 0;
+      font-size: 1.1rem;
+      color: var(--color-text-primary);
+    }
+
+    .input-icon {
+      font-size: 1.5rem;
+    }
+
+    .prompt-area {
+      flex: 1;
+      width: 100%;
+      padding: 1rem;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      font-family: var(--font-sans);
+      font-size: 1rem;
+      resize: none;
+      min-height: 200px;
+      transition: border-color 0.2s;
+    }
+
+    .prompt-area:focus {
+      outline: none;
+      border-color: #9c27b0;
+    }
+
+    .upload-area {
+      flex: 1;
+      border: 2px dashed rgba(0, 0, 0, 0.15);
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s;
+      min-height: 200px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .upload-area:hover {
+      border-color: #9c27b0;
+      background: rgba(156, 39, 176, 0.02);
+    }
+
+    .upload-area.has-image {
+      border-style: solid;
+      border-color: #4caf50;
+      padding: 0;
+    }
+
+    .upload-placeholder {
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .upload-placeholder p {
+      margin: 0.5rem 0 0;
+      color: var(--color-text-tertiary);
+      font-size: 0.9rem;
+    }
+
+    .uploaded-image {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      max-height: 300px;
+    }
+
+    .remove-image-btn {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      background: rgba(0, 0, 0, 0.5);
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 0.8rem;
+    }
+
+    /* Generate Button */
+    .generate-section {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .generate-btn {
+      background: #9c27b0;
+      color: #fff;
+      border: none;
+      padding: 1rem 3rem;
+      font-size: 1.1rem;
+      font-weight: 600;
+      border-radius: 30px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      transition: all 0.3s;
+      box-shadow: 0 4px 15px rgba(156, 39, 176, 0.3);
+    }
+
+    .generate-btn:hover:not(:disabled) {
+      background: #7b1fa2;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(156, 39, 176, 0.4);
+    }
+
+    .generate-btn:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    /* Settings Panel */
+    .settings-panel {
+      background: #fff;
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+    }
+
+    .settings-title {
+      font-size: 1rem;
+      font-weight: 600;
+      margin: 0 0 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .settings-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .setting-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .setting-item label {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--color-text-secondary);
+    }
+
+    .setting-item select,
+    .setting-item input[type="range"] {
+      padding: 0.5rem;
+      border: 1px solid rgba(0, 0, 0, 0.15);
+      border-radius: 6px;
+      font-size: 0.9rem;
+    }
+
+    .setting-item input[type="range"] {
+      padding: 0;
+      height: 6px;
+      -webkit-appearance: none;
+      background: #e0e0e0;
+      border-radius: 3px;
+    }
+
+    .setting-item input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 18px;
+      height: 18px;
+      background: #9c27b0;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    .setting-value {
+      font-size: 0.8rem;
+      color: var(--color-text-tertiary);
+      text-align: right;
+    }
+
+    /* Result Section */
+    .result-section {
+      background: #fff;
+      border-radius: 16px;
+      padding: 2rem;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+    }
+
+    .result-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .result-header h2 {
+      margin: 0;
+      font-size: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .result-actions {
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    .result-btn {
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.2s;
+    }
+
+    .result-btn.primary {
+      background: #9c27b0;
+      color: #fff;
+      border: none;
+    }
+
+    .result-btn.primary:hover {
+      background: #7b1fa2;
+    }
+
+    .result-btn.secondary {
+      background: transparent;
+      border: 1px solid rgba(0, 0, 0, 0.15);
+      color: var(--color-text-primary);
+    }
+
+    .result-btn.secondary:hover {
+      background: rgba(0, 0, 0, 0.03);
+    }
+
+    /* Video Player */
+    .video-container {
+      position: relative;
+      background: #000;
+      border-radius: 12px;
+      overflow: hidden;
+      aspect-ratio: 16 / 9;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .video-container video {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    /* Processing Overlay */
+    .processing-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+
+    .processing-overlay.hidden {
+      display: none;
+    }
+
+    .processing-card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 3rem;
+      text-align: center;
+      max-width: 400px;
+    }
+
+    .processing-animation {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 1.5rem;
+      position: relative;
+    }
+
+    .processing-animation::before,
+    .processing-animation::after {
+      content: '';
+      position: absolute;
+      border-radius: 50%;
+    }
+
+    .processing-animation::before {
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border: 4px solid #e0e0e0;
+    }
+
+    .processing-animation::after {
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border: 4px solid transparent;
+      border-top-color: #9c27b0;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .processing-card h3 {
+      margin: 0 0 0.5rem;
+      font-size: 1.25rem;
+    }
+
+    .processing-card p {
+      margin: 0 0 1.5rem;
+      color: var(--color-text-secondary);
+    }
+
+    .progress-bar {
+      height: 8px;
+      background: #e0e0e0;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #9c27b0, #e1bee7);
+      border-radius: 4px;
+      transition: width 0.3s;
+      animation: progressPulse 2s infinite;
+    }
+
+    @keyframes progressPulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+
+    .progress-text {
+      margin-top: 0.75rem;
+      font-size: 0.85rem;
+      color: var(--color-text-tertiary);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .input-section {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Next Steps Section */
+    .next-steps-section {
+      margin-top: 2.5rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(0, 0, 0, 0.08);
+    }
+
+    .next-steps-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin: 0 0 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .next-steps-description {
+      color: var(--color-text-secondary);
+      margin: 0 0 1.5rem;
+      font-size: 0.95rem;
+    }
+
+    .next-steps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 2rem;
+    }
+
+    .next-step-card {
+      background: #fff;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: all 0.2s;
+    }
+
+    .next-step-card:hover {
+      border-color: rgba(0, 0, 0, 0.15);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    }
+
+    .next-step-card.featured {
+      background: linear-gradient(135deg, #f3e5f5 0%, #fff 100%);
+      border-color: #9c27b0;
+      box-shadow: 0 4px 16px rgba(156, 39, 176, 0.1);
+    }
+
+    .next-step-card.featured:hover {
+      box-shadow: 0 6px 20px rgba(156, 39, 176, 0.15);
+    }
+
+    .next-step-icon {
+      font-size: 2rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .next-step-card h4 {
+      margin: 0 0 0.5rem;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--color-text-primary);
+    }
+
+    .next-step-card p {
+      margin: 0 0 1rem;
+      font-size: 0.85rem;
+      color: var(--color-text-secondary);
+      line-height: 1.4;
+    }
+
+    .next-step-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .action-btn {
+      padding: 0.5rem 0.875rem;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.2s;
+      border: none;
+    }
+
+    .action-btn.primary {
+      background: #9c27b0;
+      color: #fff;
+      box-shadow: 0 2px 6px rgba(156, 39, 176, 0.25);
+    }
+
+    .action-btn.primary:hover {
+      background: #7b1fa2;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 10px rgba(156, 39, 176, 0.35);
+    }
+
+    .action-btn.primary.large {
+      padding: 0.75rem 1.25rem;
+      font-size: 0.9rem;
+      width: 100%;
+      justify-content: center;
+      margin-bottom: 0.5rem;
+    }
+
+    .action-btn.secondary {
+      background: #f5f5f5;
+      color: var(--color-text-primary);
+      border: 1px solid rgba(0, 0, 0, 0.08);
+    }
+
+    .action-btn.secondary:hover {
+      background: #ebebeb;
+      border-color: rgba(0, 0, 0, 0.15);
+    }
+
+    /* Quick Actions Bar */
+    .quick-actions-bar {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      padding: 1.5rem;
+      background: #f9f9f9;
+      border-radius: 12px;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+    }
+
+    .quick-action-btn {
+      background: #fff;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      padding: 0.75rem 1.25rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.2s;
+      color: var(--color-text-primary);
+    }
+
+    .quick-action-btn:hover {
+      background: #fff;
+      border-color: #9c27b0;
+      color: #9c27b0;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .quick-action-btn span {
+      font-size: 1rem;
+    }
+  </style>
+</head>
+<body class="animation-page">
+  <!-- Header -->
+  <header class="animation-header">
+    <div class="animation-header-left">
+      <button class="back-btn" onclick="window.location.href='project.html'">
+        <span>←</span> Back to Editor
+      </button>
+      <div class="animation-title">
+        <h1>✨ ProtoAnimate</h1>
+        <span class="badge">Idea to Animation</span>
+      </div>
+    </div>
+    <div class="animation-header-right">
+      <button class="back-btn" onclick="window.location.href='projects.html'">
+        <span>📊</span> Dashboard
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <div class="animation-container">
+    <!-- Step Indicator -->
+    <div class="steps-indicator">
+      <div class="step active" id="step1">
+        <span class="step-number">1</span>
+        <span>Describe & Sketch</span>
+      </div>
+      <div class="step-connector" id="connector1"></div>
+      <div class="step" id="step2">
+        <span class="step-number">2</span>
+        <span>Style & Settings</span>
+      </div>
+      <div class="step-connector" id="connector2"></div>
+      <div class="step" id="step3">
+        <span class="step-number">3</span>
+        <span>Generate</span>
+      </div>
+      <div class="step-connector" id="connector3"></div>
+      <div class="step" id="step4">
+        <span class="step-number">4</span>
+        <span>Preview & Export</span>
+      </div>
+    </div>
+
+    <!-- Input Section -->
+    <div class="input-section">
+      <!-- Text Prompt -->
+      <div class="input-card">
+        <div class="input-header">
+          <div class="input-icon">📝</div>
+          <h3>Describe your idea</h3>
+        </div>
+        <textarea id="promptInput" class="prompt-area" placeholder="Describe the scene, characters, and action..."></textarea>
+      </div>
+
+      <!-- Sketch Upload -->
+      <div class="input-card">
+        <div class="input-header">
+          <div class="input-icon">✏️</div>
+          <h3>Upload a sketch (Optional)</h3>
+        </div>
+        <div class="upload-area" id="sketchUploadArea">
+          <input type="file" id="sketchInput" accept="image/*" style="display:none" />
+          <div class="upload-placeholder">
+            <div style="font-size: 2rem; margin-bottom: 0.5rem;">📤</div>
+            <strong>Click to upload or drag & drop</strong>
+            <p>PNG, JPG up to 10MB</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Settings Panel -->
+    <div class="settings-panel">
+      <h3 class="settings-title">⚙️ Animation Settings</h3>
+      <div class="settings-grid">
+        <div class="setting-item">
+          <label>Style</label>
+          <select id="styleSelect">
+            <option value="anime" selected>Anime Style</option>
+            <option value="realistic">Realistic</option>
+            <option value="cartoon">Cartoon</option>
+            <option value="sketch">Sketch/Line Art</option>
+            <option value="3d">3D Render</option>
+          </select>
+        </div>
+        <div class="setting-item">
+          <label>Duration</label>
+          <select id="durationSelect">
+            <option value="3">3 seconds</option>
+            <option value="5" selected>5 seconds</option>
+            <option value="10">10 seconds</option>
+          </select>
+        </div>
+        <div class="setting-item">
+          <label>Aspect Ratio</label>
+          <select id="ratioSelect">
+            <option value="16:9" selected>16:9 (Landscape)</option>
+            <option value="9:16">9:16 (Portrait)</option>
+            <option value="1:1">1:1 (Square)</option>
+          </select>
+        </div>
+        <div class="setting-item">
+          <label>Creativity Level</label>
+          <input type="range" id="creativitySlider" min="0" max="100" value="60" />
+          <div class="setting-value"><span id="creativityValue">60</span>%</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Generate Button -->
+    <div class="generate-section">
+      <button class="generate-btn" id="generateBtn">
+        <span>✨</span>
+        <span>Generate Animation</span>
+      </button>
+      <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--color-text-tertiary);">
+        Describe your idea or upload a sketch to start
+      </p>
+    </div>
+
+    <!-- Result Section -->
+    <div class="result-section" id="resultSection" style="display: none;">
+      <div class="result-header">
+        <h2>🎬 Generated Animation</h2>
+        <div class="result-actions">
+          <button class="result-btn secondary" id="replayBtn">
+            <span>🔄</span> Replay
+          </button>
+        </div>
+      </div>
+
+      <div class="video-container">
+        <video id="resultVideo" controls loop>
+          <source src="media/ProtoAnimate/Untitled design-2.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+      </div>
+
+      <!-- Next Steps Section -->
+      <div class="next-steps-section">
+        <h3 class="next-steps-title">🚀 What's Next?</h3>
+        <p class="next-steps-description">Your prototype is ready! Choose what to do with your generated video:</p>
+        
+        <div class="next-steps-grid">
+          <!-- Download Options -->
+          <div class="next-step-card">
+            <div class="next-step-icon">📥</div>
+            <h4>Download</h4>
+            <p>Save your animation in various formats</p>
+            <div class="next-step-actions">
+              <button class="action-btn primary" id="downloadMp4Btn">
+                <span>🎬</span> MP4 Video
+              </button>
+              <button class="action-btn secondary" id="downloadGifBtn">
+                <span>🖼️</span> GIF
+              </button>
+            </div>
+          </div>
+
+          <!-- Create New Project -->
+          <div class="next-step-card featured">
+            <div class="next-step-icon">🎨</div>
+            <h4>Create Project</h4>
+            <p>Continue editing in the full animation editor</p>
+            <div class="next-step-actions">
+              <button class="action-btn primary large" id="createProjectBtn">
+                <span>🚀</span> Open in Editor
+              </button>
+              <button class="action-btn secondary" id="addToExistingBtn">
+                <span>➕</span> Add to Existing Project
+              </button>
+            </div>
+          </div>
+
+          <!-- Share Options -->
+          <div class="next-step-card">
+            <div class="next-step-icon">🔗</div>
+            <h4>Share</h4>
+            <p>Share your animation with others</p>
+            <div class="next-step-actions">
+              <button class="action-btn secondary" id="copyLinkBtn">
+                <span>🔗</span> Copy Link
+              </button>
+              <button class="action-btn secondary" id="shareEmailBtn">
+                <span>📧</span> Email
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Actions Bar -->
+        <div class="quick-actions-bar">
+          <button class="quick-action-btn" id="generateAnotherBtn">
+            <span>🔄</span> Generate Another
+          </button>
+          <button class="quick-action-btn" id="refinePromptBtn">
+            <span>✏️</span> Refine Prompt
+          </button>
+          <button class="quick-action-btn" id="addAudioBtn">
+            <span>🎵</span> Add Audio
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Processing Overlay -->
+  <div class="processing-overlay hidden" id="processingOverlay">
+    <div class="processing-card">
+      <div class="processing-animation"></div>
+      <h3>Generating Prototype</h3>
+      <p>AI is bringing your idea to life...</p>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+      </div>
+      <div class="progress-text" id="progressText">Analyzing prompt...</div>
+    </div>
+  </div>
+
+  <script>
+    // State
+    let sketchImage = null;
+    let isProcessing = false;
+
+    // DOM Elements
+    const promptInput = document.getElementById('promptInput');
+    const sketchUploadArea = document.getElementById('sketchUploadArea');
+    const sketchInput = document.getElementById('sketchInput');
+    const generateBtn = document.getElementById('generateBtn');
+    const resultSection = document.getElementById('resultSection');
+    const processingOverlay = document.getElementById('processingOverlay');
+    const progressFill = document.getElementById('progressFill');
+    const progressText = document.getElementById('progressText');
+    const creativitySlider = document.getElementById('creativitySlider');
+    const creativityValue = document.getElementById('creativityValue');
+
+    // Initialize with sample data
+    document.addEventListener('DOMContentLoaded', () => {
+      loadSampleData();
+    });
+
+    function loadSampleData() {
+      // Set default prompt
+      promptInput.value = "A pretty teenage girl with yellow hair, is so sick and crying in her home, with tears dropping down...";
+      
+      // Load sample sketch
+      const sketchImg = new Image();
+      sketchImg.src = 'media/ProtoAnimate/pencilsketchadjusted-6628750-2.jpeg';
+      sketchImg.onload = () => {
+        sketchImage = sketchImg.src;
+        updateUploadArea(sketchImg.src);
+        updateSteps();
+      };
+    }
+
+    // File upload handlers
+    sketchUploadArea.addEventListener('click', (e) => {
+      if (!e.target.classList.contains('remove-image-btn')) {
+        sketchInput.click();
+      }
+    });
+
+    sketchInput.addEventListener('change', (e) => {
+      if (e.target.files[0]) {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          sketchImage = event.target.result;
+          updateUploadArea(sketchImage);
+          updateSteps();
+        };
+        reader.readAsDataURL(e.target.files[0]);
+      }
+    });
+
+    // Drag and drop
+    sketchUploadArea.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      sketchUploadArea.style.borderColor = '#9c27b0';
+      sketchUploadArea.style.background = 'rgba(156, 39, 176, 0.05)';
+    });
+
+    sketchUploadArea.addEventListener('dragleave', () => {
+      if (!sketchUploadArea.classList.contains('has-image')) {
+        sketchUploadArea.style.borderColor = '';
+        sketchUploadArea.style.background = '';
+      }
+    });
+
+    sketchUploadArea.addEventListener('drop', (e) => {
+      e.preventDefault();
+      sketchUploadArea.style.borderColor = '';
+      sketchUploadArea.style.background = '';
+      
+      const file = e.dataTransfer.files[0];
+      if (file && file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          sketchImage = event.target.result;
+          updateUploadArea(sketchImage);
+          updateSteps();
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    function updateUploadArea(imageSrc) {
+      sketchUploadArea.classList.add('has-image');
+      sketchUploadArea.innerHTML = `
+        <img src="${imageSrc}" alt="Uploaded Sketch" class="uploaded-image" />
+        <button class="remove-image-btn" onclick="removeSketch(event)">×</button>
+      `;
+    }
+
+    window.removeSketch = function(e) {
+      e.stopPropagation();
+      sketchImage = null;
+      sketchUploadArea.classList.remove('has-image');
+      sketchUploadArea.innerHTML = `
+        <input type="file" id="sketchInput" accept="image/*" style="display:none" />
+        <div class="upload-placeholder">
+          <div style="font-size: 2rem; margin-bottom: 0.5rem;">📤</div>
+          <strong>Click to upload or drag & drop</strong>
+          <p>PNG, JPG up to 10MB</p>
+        </div>
+      `;
+      // Re-attach listener
+      document.getElementById('sketchInput').addEventListener('change', (e) => {
+        if (e.target.files[0]) {
+          const reader = new FileReader();
+          reader.onload = (event) => {
+            sketchImage = event.target.result;
+            updateUploadArea(sketchImage);
+            updateSteps();
+          };
+          reader.readAsDataURL(e.target.files[0]);
+        }
+      });
+      updateSteps();
+    };
+
+    function updateSteps() {
+      const step1 = document.getElementById('step1');
+      const step2 = document.getElementById('step2');
+      const connector1 = document.getElementById('connector1');
+
+      if (promptInput.value.trim() || sketchImage) {
+        step1.classList.remove('active');
+        step1.classList.add('completed');
+        step2.classList.add('active');
+        connector1.classList.add('completed');
+      }
+    }
+
+    // Prompt input listener
+    promptInput.addEventListener('input', updateSteps);
+
+    // Slider updates
+    creativitySlider.addEventListener('input', (e) => {
+      creativityValue.textContent = e.target.value;
+    });
+
+    // Generate animation
+    generateBtn.addEventListener('click', () => {
+      if (isProcessing) return;
+      if (!promptInput.value.trim() && !sketchImage) {
+        alert('Please describe your idea or upload a sketch first.');
+        return;
+      }
+      startProcessing();
+    });
+
+    function startProcessing() {
+      isProcessing = true;
+      processingOverlay.classList.remove('hidden');
+      
+      // Update steps
+      document.getElementById('step2').classList.remove('active');
+      document.getElementById('step2').classList.add('completed');
+      document.getElementById('step3').classList.add('active');
+      document.getElementById('connector2').classList.add('completed');
+      
+      // Simulate processing
+      const steps = [
+        { progress: 10, text: 'Analyzing prompt and sketch...' },
+        { progress: 30, text: 'Generating scene composition...' },
+        { progress: 50, text: 'Creating character animation...' },
+        { progress: 70, text: 'Applying style transfer...' },
+        { progress: 90, text: 'Rendering final video...' },
+        { progress: 100, text: 'Complete!' }
+      ];
+
+      let stepIndex = 0;
+      const interval = setInterval(() => {
+        if (stepIndex < steps.length) {
+          progressFill.style.width = steps[stepIndex].progress + '%';
+          progressText.textContent = steps[stepIndex].text;
+          stepIndex++;
+        } else {
+          clearInterval(interval);
+          setTimeout(completeProcessing, 500);
+        }
+      }, 800);
+    }
+
+    function completeProcessing() {
+      isProcessing = false;
+      processingOverlay.classList.add('hidden');
+      
+      // Update steps
+      document.getElementById('step3').classList.remove('active');
+      document.getElementById('step3').classList.add('completed');
+      document.getElementById('step4').classList.add('active');
+      document.getElementById('connector3').classList.add('completed');
+      
+      // Show result
+      resultSection.style.display = 'block';
+      resultSection.scrollIntoView({ behavior: 'smooth' });
+      
+      // Play video
+      const video = document.getElementById('resultVideo');
+      video.play();
+    }
+
+    // Result actions
+    document.getElementById('replayBtn').addEventListener('click', () => {
+      const video = document.getElementById('resultVideo');
+      video.currentTime = 0;
+      video.play();
+    });
+
+    // Download buttons
+    document.getElementById('downloadMp4Btn').addEventListener('click', () => {
+      downloadFile('media/ProtoAnimate/Untitled design-2.mp4', 'proto-animate-output.mp4');
+      showNotification('Downloading MP4 video...');
+    });
+
+    document.getElementById('downloadGifBtn').addEventListener('click', () => {
+      showNotification('Converting to GIF... (Demo: GIF export coming soon)', 'info');
+    });
+
+    // Create Project buttons
+    document.getElementById('createProjectBtn').addEventListener('click', () => {
+      sessionStorage.setItem('currentProjectName', 'ProtoAnimate Project');
+      sessionStorage.setItem('projectSource', 'proto-animate');
+      showNotification('Creating new project...', 'success');
+      setTimeout(() => {
+        window.location.href = 'project-proto.html';
+      }, 1000);
+    });
+
+    document.getElementById('addToExistingBtn').addEventListener('click', () => {
+      showNotification('Opening project selector... (Demo: Feature coming soon)', 'info');
+    });
+
+    // Share buttons
+    document.getElementById('copyLinkBtn').addEventListener('click', () => {
+      navigator.clipboard.writeText(window.location.href).then(() => {
+        showNotification('Link copied to clipboard!', 'success');
+      }).catch(() => {
+        showNotification('Could not copy link', 'error');
+      });
+    });
+
+    document.getElementById('shareEmailBtn').addEventListener('click', () => {
+      const subject = encodeURIComponent('Check out my AI prototype animation!');
+      const body = encodeURIComponent('I created this animation using ProtoAnimate.');
+      window.location.href = `mailto:?subject=${subject}&body=${body}`;
+    });
+
+    // Quick action buttons
+    document.getElementById('generateAnotherBtn').addEventListener('click', () => {
+      // Reset the page
+      document.getElementById('resultSection').style.display = 'none';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      
+      // Reset steps
+      document.querySelectorAll('.step').forEach(s => {
+        s.classList.remove('completed', 'active');
+      });
+      document.querySelectorAll('.step-connector').forEach(c => {
+        c.classList.remove('completed');
+      });
+      document.getElementById('step1').classList.add('active');
+      
+      showNotification('Ready to generate a new prototype!', 'success');
+    });
+
+    document.getElementById('refinePromptBtn').addEventListener('click', () => {
+      document.getElementById('resultSection').style.display = 'none';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      document.getElementById('promptInput').focus();
+    });
+
+    document.getElementById('addAudioBtn').addEventListener('click', () => {
+      showNotification('Opening audio editor... (Demo: Feature coming soon)', 'info');
+    });
+
+    // Helper functions
+    function downloadFile(url, filename) {
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = filename;
+      link.click();
+    }
+
+    function showNotification(message, type = 'info') {
+      const notification = document.createElement('div');
+      notification.className = `notification ${type}`;
+      notification.innerHTML = `
+        <span class="notification-icon">${type === 'success' ? '✅' : type === 'error' ? '❌' : 'ℹ️'}</span>
+        <span class="notification-message">${message}</span>
+      `;
+      
+      Object.assign(notification.style, {
+        position: 'fixed',
+        bottom: '2rem',
+        right: '2rem',
+        background: type === 'success' ? '#4caf50' : type === 'error' ? '#f44336' : '#2196f3',
+        color: '#fff',
+        padding: '1rem 1.5rem',
+        borderRadius: '8px',
+        boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '0.75rem',
+        fontSize: '0.9rem',
+        fontWeight: '500',
+        zIndex: '9999',
+        animation: 'slideIn 0.3s ease'
+      });
+      
+      document.body.appendChild(notification);
+      
+      setTimeout(() => {
+        notification.style.animation = 'slideOut 0.3s ease';
+        setTimeout(() => notification.remove(), 300);
+      }, 3000);
+    }
+
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes slideIn {
+        from { transform: translateX(100%); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+      }
+      @keyframes slideOut {
+        from { transform: translateX(0); opacity: 1; }
+        to { transform: translateX(100%); opacity: 0; }
+      }
+    `;
+    document.head.appendChild(style);
+  </script>
+</body>
+</html>
