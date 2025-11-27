@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SyncYourVoice | AI Lip-Sync</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/app.css" />
+  <style>
+    /* SyncYourVoice Page Specific Styles */
+    .animation-page {
+      min-height: 100vh;
+      background: var(--color-bg-primary);
+    }
+
+    .animation-header {
+      background: #fff;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .animation-header-left {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .back-btn {
+      background: transparent;
+      border: 1px solid rgba(0, 0, 0, 0.15);
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+    }
+
+    .back-btn:hover {
+      background: rgba(0, 0, 0, 0.03);
+    }
+
+    .animation-title {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .animation-title h1 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    .animation-title .badge {
+      background: #e3f2fd;
+      color: #1976d2;
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .animation-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    /* Step Indicator */
+    .steps-indicator {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 3rem;
+      flex-wrap: wrap;
+    }
+
+    .step {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      background: #fff;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      border-radius: 30px;
+      font-size: 0.9rem;
+      color: var(--color-text-secondary);
+      transition: all 0.3s;
+    }
+
+    .step.active {
+      background: #1976d2;
+      border-color: #1976d2;
+      color: #fff;
+    }
+
+    .step.completed {
+      background: #e8f5e9;
+      border-color: #4caf50;
+      color: #2e7d32;
+    }
+
+    .step-number {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 0.8rem;
+    }
+
+    .step.active .step-number {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    .step.completed .step-number {
+      background: #4caf50;
+      color: #fff;
+    }
+
+    .step-connector {
+      width: 40px;
+      height: 2px;
+      background: rgba(0, 0, 0, 0.1);
+      align-self: center;
+    }
+
+    .step-connector.completed {
+      background: #4caf50;
+    }
+
+    /* Input Section */
+    .input-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .input-card {
+      background: #fff;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      border-radius: 16px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .input-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .input-header h3 {
+      margin: 0;
+      font-size: 1.1rem;
+      color: var(--color-text-primary);
+    }
+
+    .input-icon {
+      font-size: 1.5rem;
+    }
+
+    .upload-area {
+      flex: 1;
+      border: 2px dashed rgba(0, 0, 0, 0.15);
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s;
+      min-height: 200px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .upload-area:hover {
+      border-color: #1976d2;
+      background: rgba(25, 118, 210, 0.02);
+    }
+
+    .upload-area.has-file {
+      border-style: solid;
+      border-color: #4caf50;
+      padding: 0;
+    }
+
+    .upload-placeholder {
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .upload-placeholder p {
+      margin: 0.5rem 0 0;
+      color: var(--color-text-tertiary);
+      font-size: 0.9rem;
+    }
+
+    .uploaded-preview {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      max-height: 300px;
+    }
+    
+    .audio-preview {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        background: #f5f5f5;
+    }
+    
+    .audio-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        color: #1976d2;
+    }
+
+    .remove-file-btn {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      background: rgba(0, 0, 0, 0.5);
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 0.8rem;
+    }
+
+    /* Generate Button */
+    .generate-section {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .generate-btn {
+      background: #1976d2;
+      color: #fff;
+      border: none;
+      padding: 1rem 3rem;
+      font-size: 1.1rem;
+      font-weight: 600;
+      border-radius: 30px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      transition: all 0.3s;
+      box-shadow: 0 4px 15px rgba(25, 118, 210, 0.3);
+    }
+
+    .generate-btn:hover:not(:disabled) {
+      background: #1565c0;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(25, 118, 210, 0.4);
+    }
+
+    .generate-btn:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    /* Settings Panel */
+    .settings-panel {
+      background: #fff;
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+    }
+
+    .settings-title {
+      font-size: 1rem;
+      font-weight: 600;
+      margin: 0 0 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .settings-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .setting-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .setting-item label {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--color-text-secondary);
+    }
+
+    .setting-item select,
+    .setting-item input[type="range"] {
+      padding: 0.5rem;
+      border: 1px solid rgba(0, 0, 0, 0.15);
+      border-radius: 6px;
+      font-size: 0.9rem;
+    }
+
+    .setting-item input[type="range"] {
+      padding: 0;
+      height: 6px;
+      -webkit-appearance: none;
+      background: #e0e0e0;
+      border-radius: 3px;
+    }
+
+    .setting-item input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 18px;
+      height: 18px;
+      background: #1976d2;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    .setting-value {
+      font-size: 0.8rem;
+      color: var(--color-text-tertiary);
+      text-align: right;
+    }
+
+    /* Result Section */
+    .result-section {
+      background: #fff;
+      border-radius: 16px;
+      padding: 2rem;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+    }
+
+    .result-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .result-header h2 {
+      margin: 0;
+      font-size: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .result-actions {
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    .result-btn {
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.2s;
+    }
+
+    .result-btn.primary {
+      background: #1976d2;
+      color: #fff;
+      border: none;
+    }
+
+    .result-btn.primary:hover {
+      background: #1565c0;
+    }
+
+    .result-btn.secondary {
+      background: transparent;
+      border: 1px solid rgba(0, 0, 0, 0.15);
+      color: var(--color-text-primary);
+    }
+
+    .result-btn.secondary:hover {
+      background: rgba(0, 0, 0, 0.03);
+    }
+
+    /* Video Player */
+    .video-container {
+      position: relative;
+      background: #000;
+      border-radius: 12px;
+      overflow: hidden;
+      aspect-ratio: 16 / 9;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .video-container video {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    /* Processing Overlay */
+    .processing-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+
+    .processing-overlay.hidden {
+      display: none;
+    }
+
+    .processing-card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 3rem;
+      text-align: center;
+      max-width: 400px;
+    }
+
+    .processing-animation {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 1.5rem;
+      position: relative;
+    }
+
+    .processing-animation::before,
+    .processing-animation::after {
+      content: '';
+      position: absolute;
+      border-radius: 50%;
+    }
+
+    .processing-animation::before {
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border: 4px solid #e0e0e0;
+    }
+
+    .processing-animation::after {
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border: 4px solid transparent;
+      border-top-color: #1976d2;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .processing-card h3 {
+      margin: 0 0 0.5rem;
+      font-size: 1.25rem;
+    }
+
+    .processing-card p {
+      margin: 0 0 1.5rem;
+      color: var(--color-text-secondary);
+    }
+
+    .progress-bar {
+      height: 8px;
+      background: #e0e0e0;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #1976d2, #64b5f6);
+      border-radius: 4px;
+      transition: width 0.3s;
+      animation: progressPulse 2s infinite;
+    }
+
+    @keyframes progressPulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+
+    .progress-text {
+      margin-top: 0.75rem;
+      font-size: 0.85rem;
+      color: var(--color-text-tertiary);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .input-section {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body class="animation-page">
+  <!-- Header -->
+  <header class="animation-header">
+    <div class="animation-header-left">
+      <button class="back-btn" onclick="window.location.href='projects.html'">
+        <span>←</span> Back to Dashboard
+      </button>
+      <div class="animation-title">
+        <h1>🎤 SyncYourVoice</h1>
+        <span class="badge">AI Lip-Sync</span>
+      </div>
+    </div>
+    <div class="animation-header-right">
+      <!-- Additional header actions if needed -->
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <div class="animation-container">
+    <!-- Step Indicator -->
+    <div class="steps-indicator">
+      <div class="step active" id="step1">
+        <span class="step-number">1</span>
+        <span>Upload Assets</span>
+      </div>
+      <div class="step-connector" id="connector1"></div>
+      <div class="step" id="step2">
+        <span class="step-number">2</span>
+        <span>Configure</span>
+      </div>
+      <div class="step-connector" id="connector2"></div>
+      <div class="step" id="step3">
+        <span class="step-number">3</span>
+        <span>Sync</span>
+      </div>
+      <div class="step-connector" id="connector3"></div>
+      <div class="step" id="step4">
+        <span class="step-number">4</span>
+        <span>Preview</span>
+      </div>
+    </div>
+
+    <!-- Input Section -->
+    <div class="input-section">
+      <!-- Character Upload -->
+      <div class="input-card">
+        <div class="input-header">
+          <div class="input-icon">👤</div>
+          <h3>Character Image/Video</h3>
+        </div>
+        <div class="upload-area" id="characterUploadArea">
+          <input type="file" id="characterInput" accept="image/*,video/*" style="display:none" />
+          <div class="upload-placeholder">
+            <div style="font-size: 2rem; margin-bottom: 0.5rem;">📤</div>
+            <strong>Upload Character</strong>
+            <p>Image or Video (MP4, PNG, JPG)</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Audio Upload -->
+      <div class="input-card">
+        <div class="input-header">
+          <div class="input-icon">🎵</div>
+          <h3>Voice Audio</h3>
+        </div>
+        <div class="upload-area" id="audioUploadArea">
+          <input type="file" id="audioInput" accept="audio/*" style="display:none" />
+          <div class="upload-placeholder">
+            <div style="font-size: 2rem; margin-bottom: 0.5rem;">🎙️</div>
+            <strong>Upload Voice Audio</strong>
+            <p>MP3, WAV, AAC</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Settings Panel -->
+    <div class="settings-panel">
+      <h3 class="settings-title">⚙️ Sync Settings</h3>
+      <div class="settings-grid">
+        <div class="setting-item">
+          <label>Emotion</label>
+          <select id="emotionSelect">
+            <option value="neutral" selected>Neutral</option>
+            <option value="happy">Happy</option>
+            <option value="sad">Sad</option>
+            <option value="angry">Angry</option>
+            <option value="surprised">Surprised</option>
+          </select>
+        </div>
+        <div class="setting-item">
+          <label>Lip-Sync Strength</label>
+          <input type="range" id="strengthSlider" min="0" max="100" value="80" />
+          <div class="setting-value"><span id="strengthValue">80</span>%</div>
+        </div>
+        <div class="setting-item">
+          <label>Head Movement</label>
+          <select id="movementSelect">
+            <option value="none">None (Static)</option>
+            <option value="subtle" selected>Subtle</option>
+            <option value="active">Active</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Generate Button -->
+    <div class="generate-section">
+      <button class="generate-btn" id="generateBtn">
+        <span>🎤</span>
+        <span>Sync Voice & Animate</span>
+      </button>
+      <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--color-text-tertiary);">
+        Upload both character and audio to start
+      </p>
+    </div>
+
+    <!-- Result Section -->
+    <div class="result-section" id="resultSection" style="display: none;">
+      <div class="result-header">
+        <h2>🎬 Synced Result</h2>
+        <div class="result-actions">
+          <button class="result-btn secondary" id="replayBtn">
+            <span>🔄</span> Replay
+          </button>
+          <button class="result-btn primary" id="downloadBtn">
+            <span>📥</span> Download
+          </button>
+        </div>
+      </div>
+
+      <div class="video-container">
+        <video id="resultVideo" controls loop>
+          <!-- Placeholder video for demo purposes -->
+          <source src="media/CharacterAnimation/Untitled design.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+      </div>
+    </div>
+  </div>
+
+  <!-- Processing Overlay -->
+  <div class="processing-overlay hidden" id="processingOverlay">
+    <div class="processing-card">
+      <div class="processing-animation"></div>
+      <h3>Syncing Voice...</h3>
+      <p>AI is matching lip movements to your audio...</p>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+      </div>
+      <div class="progress-text" id="progressText">Analyzing audio waveform...</div>
+    </div>
+  </div>
+
+  <script>
+    // State
+    let characterFile = null;
+    let audioFile = null;
+    let isProcessing = false;
+
+    // DOM Elements
+    const characterUploadArea = document.getElementById('characterUploadArea');
+    const characterInput = document.getElementById('characterInput');
+    const audioUploadArea = document.getElementById('audioUploadArea');
+    const audioInput = document.getElementById('audioInput');
+    const generateBtn = document.getElementById('generateBtn');
+    const resultSection = document.getElementById('resultSection');
+    const processingOverlay = document.getElementById('processingOverlay');
+    const progressFill = document.getElementById('progressFill');
+    const progressText = document.getElementById('progressText');
+    const strengthSlider = document.getElementById('strengthSlider');
+    const strengthValue = document.getElementById('strengthValue');
+
+    // File upload handlers - Character
+    characterUploadArea.addEventListener('click', (e) => {
+      if (!e.target.classList.contains('remove-file-btn')) {
+        characterInput.click();
+      }
+    });
+
+    characterInput.addEventListener('change', (e) => {
+      if (e.target.files[0]) {
+        handleCharacterUpload(e.target.files[0]);
+      }
+    });
+
+    characterUploadArea.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      characterUploadArea.style.borderColor = '#1976d2';
+      characterUploadArea.style.background = 'rgba(25, 118, 210, 0.05)';
+    });
+
+    characterUploadArea.addEventListener('dragleave', () => {
+      if (!characterUploadArea.classList.contains('has-file')) {
+        characterUploadArea.style.borderColor = '';
+        characterUploadArea.style.background = '';
+      }
+    });
+
+    characterUploadArea.addEventListener('drop', (e) => {
+      e.preventDefault();
+      characterUploadArea.style.borderColor = '';
+      characterUploadArea.style.background = '';
+      
+      const file = e.dataTransfer.files[0];
+      if (file && (file.type.startsWith('image/') || file.type.startsWith('video/'))) {
+        handleCharacterUpload(file);
+      }
+    });
+
+    function handleCharacterUpload(file) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        characterFile = event.target.result;
+        characterUploadArea.classList.add('has-file');
+        
+        let previewHtml = '';
+        if (file.type.startsWith('video/')) {
+            previewHtml = `<video src="${characterFile}" class="uploaded-preview" muted loop autoplay></video>`;
+        } else {
+            previewHtml = `<img src="${characterFile}" alt="Character" class="uploaded-preview" />`;
+        }
+        
+        characterUploadArea.innerHTML = `
+          ${previewHtml}
+          <button class="remove-file-btn" onclick="removeCharacter(event)">×</button>
+        `;
+        updateSteps();
+      };
+      reader.readAsDataURL(file);
+    }
+
+    window.removeCharacter = function(e) {
+      e.stopPropagation();
+      characterFile = null;
+      characterUploadArea.classList.remove('has-file');
+      characterUploadArea.innerHTML = `
+        <input type="file" id="characterInput" accept="image/*,video/*" style="display:none" />
+        <div class="upload-placeholder">
+          <div style="font-size: 2rem; margin-bottom: 0.5rem;">📤</div>
+          <strong>Upload Character</strong>
+          <p>Image or Video (MP4, PNG, JPG)</p>
+        </div>
+      `;
+      // Re-attach listener
+      document.getElementById('characterInput').addEventListener('change', (e) => {
+        if (e.target.files[0]) {
+          handleCharacterUpload(e.target.files[0]);
+        }
+      });
+      updateSteps();
+    };
+
+    // File upload handlers - Audio
+    audioUploadArea.addEventListener('click', (e) => {
+      if (!e.target.classList.contains('remove-file-btn')) {
+        audioInput.click();
+      }
+    });
+
+    audioInput.addEventListener('change', (e) => {
+      if (e.target.files[0]) {
+        handleAudioUpload(e.target.files[0]);
+      }
+    });
+
+    audioUploadArea.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      audioUploadArea.style.borderColor = '#1976d2';
+      audioUploadArea.style.background = 'rgba(25, 118, 210, 0.05)';
+    });
+
+    audioUploadArea.addEventListener('dragleave', () => {
+      if (!audioUploadArea.classList.contains('has-file')) {
+        audioUploadArea.style.borderColor = '';
+        audioUploadArea.style.background = '';
+      }
+    });
+
+    audioUploadArea.addEventListener('drop', (e) => {
+      e.preventDefault();
+      audioUploadArea.style.borderColor = '';
+      audioUploadArea.style.background = '';
+      
+      const file = e.dataTransfer.files[0];
+      if (file && file.type.startsWith('audio/')) {
+        handleAudioUpload(file);
+      }
+    });
+
+    function handleAudioUpload(file) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        audioFile = event.target.result;
+        audioUploadArea.classList.add('has-file');
+        audioUploadArea.innerHTML = `
+          <div class="audio-preview">
+            <div class="audio-icon">🎵</div>
+            <div style="font-weight: 500;">${file.name}</div>
+          </div>
+          <button class="remove-file-btn" onclick="removeAudio(event)">×</button>
+        `;
+        updateSteps();
+      };
+      reader.readAsDataURL(file);
+    }
+
+    window.removeAudio = function(e) {
+      e.stopPropagation();
+      audioFile = null;
+      audioUploadArea.classList.remove('has-file');
+      audioUploadArea.innerHTML = `
+        <input type="file" id="audioInput" accept="audio/*" style="display:none" />
+        <div class="upload-placeholder">
+          <div style="font-size: 2rem; margin-bottom: 0.5rem;">🎙️</div>
+          <strong>Upload Voice Audio</strong>
+          <p>MP3, WAV, AAC</p>
+        </div>
+      `;
+      // Re-attach listener
+      document.getElementById('audioInput').addEventListener('change', (e) => {
+        if (e.target.files[0]) {
+          handleAudioUpload(e.target.files[0]);
+        }
+      });
+      updateSteps();
+    };
+
+    function updateSteps() {
+      const step1 = document.getElementById('step1');
+      const step2 = document.getElementById('step2');
+      const connector1 = document.getElementById('connector1');
+
+      if (characterFile && audioFile) {
+        step1.classList.remove('active');
+        step1.classList.add('completed');
+        step2.classList.add('active');
+        connector1.classList.add('completed');
+      } else {
+        step1.classList.add('active');
+        step1.classList.remove('completed');
+        step2.classList.remove('active');
+        connector1.classList.remove('completed');
+      }
+    }
+
+    // Slider updates
+    strengthSlider.addEventListener('input', (e) => {
+      strengthValue.textContent = e.target.value;
+    });
+
+    // Generate animation
+    generateBtn.addEventListener('click', () => {
+      if (isProcessing) return;
+      if (!characterFile || !audioFile) {
+        alert('Please upload both a character and an audio file.');
+        return;
+      }
+      startProcessing();
+    });
+
+    function startProcessing() {
+      isProcessing = true;
+      processingOverlay.classList.remove('hidden');
+      
+      // Update steps
+      document.getElementById('step2').classList.remove('active');
+      document.getElementById('step2').classList.add('completed');
+      document.getElementById('step3').classList.add('active');
+      document.getElementById('connector2').classList.add('completed');
+      
+      // Simulate processing
+      const steps = [
+        { progress: 10, text: 'Analyzing audio waveform...' },
+        { progress: 30, text: 'Detecting phonemes...' },
+        { progress: 50, text: 'Mapping facial landmarks...' },
+        { progress: 70, text: 'Generating lip movements...' },
+        { progress: 90, text: 'Blending expressions...' },
+        { progress: 100, text: 'Finalizing sync...' }
+      ];
+
+      let stepIndex = 0;
+      const interval = setInterval(() => {
+        if (stepIndex < steps.length) {
+          progressFill.style.width = steps[stepIndex].progress + '%';
+          progressText.textContent = steps[stepIndex].text;
+          stepIndex++;
+        } else {
+          clearInterval(interval);
+          setTimeout(completeProcessing, 500);
+        }
+      }, 800);
+    }
+
+    function completeProcessing() {
+      isProcessing = false;
+      processingOverlay.classList.add('hidden');
+      
+      // Update steps
+      document.getElementById('step3').classList.remove('active');
+      document.getElementById('step3').classList.add('completed');
+      document.getElementById('step4').classList.add('active');
+      document.getElementById('connector3').classList.add('completed');
+      
+      // Show result
+      resultSection.style.display = 'block';
+      resultSection.scrollIntoView({ behavior: 'smooth' });
+      
+      // Play video
+      const video = document.getElementById('resultVideo');
+      video.play();
+    }
+
+    // Result actions
+    document.getElementById('replayBtn').addEventListener('click', () => {
+      const video = document.getElementById('resultVideo');
+      video.currentTime = 0;
+      video.play();
+    });
+
+    document.getElementById('downloadBtn').addEventListener('click', () => {
+      const link = document.createElement('a');
+      link.href = 'media/CharacterAnimation/Untitled design.mp4';
+      link.download = 'synced-video.mp4';
+      link.click();
+    });
+  </script>
+</body>
+</html>

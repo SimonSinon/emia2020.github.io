@@ -32,12 +32,12 @@
           <p>Transform static images into smooth animations with AI-powered frame interpolation</p>
           <span style="position: absolute; top: 8px; right: 8px; background: var(--color-accent); color: white; font-size: 0.65rem; padding: 2px 8px; border-radius: 10px; font-weight: 600;">Try Now</span>
         </a>
-        <div class="ai-tool-card" data-tool="sync-voice" style="opacity: 0.7;">
+        <a href="sync-voice.html" class="ai-tool-card active-tool" data-tool="sync-voice" style="text-decoration: none; color: inherit; cursor: pointer; position: relative; overflow: hidden;">
           <div class="tool-header">🎤</div>
           <h4>SyncYourVoice</h4>
           <p>Automatically sync character lip movements to any audio with realistic expressions</p>
-          <span style="position: absolute; top: 8px; right: 8px; background: #e0e0e0; color: #666; font-size: 0.65rem; padding: 2px 8px; border-radius: 10px;">Coming Soon</span>
-        </div>
+          <span style="position: absolute; top: 8px; right: 8px; background: #1976d2; color: white; font-size: 0.65rem; padding: 2px 8px; border-radius: 10px; font-weight: 600;">Try Now</span>
+        </a>
         <a href="proto-animate.html" class="ai-tool-card active-tool" data-tool="proto-animate" style="text-decoration: none; color: inherit; cursor: pointer; position: relative; overflow: hidden;">
           <div class="tool-header">✨</div>
           <h4>ProtoAnimate</h4>
@@ -92,6 +92,22 @@
         </div>
       </div>
 
+      <div class="project-card" data-project-id="3" data-project-url="sync-voice.html">
+        <div class="project-thumbnail">
+          <video class="project-video-thumb" muted loop>
+            <source src="media/CharacterAnimation/Untitled design.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="project-info">
+          <h3 class="project-name">SyncYourVoice Demo</h3>
+          <p class="project-meta">Created with SyncYourVoice • Lip-Sync</p>
+          <div class="project-actions">
+            <button class="btn-open" data-action="open">Open</button>
+            <button class="btn-menu" data-action="menu">⋯</button>
+          </div>
+        </div>
+      </div>
+
       <div class="project-card new-project-card" id="emptyProjectCard">
         <div class="new-project-content">
           <span class="new-project-icon">+</span>
@@ -124,30 +140,4 @@
               <option value="">Blank Project</option>
               <option value="ai-nimate">AI-nimate - Frame Enhancement</option>
               <option value="sync-voice">SyncYourVoice - Lip-Sync</option>
-              <option value="proto-animate">ProtoAnimate - Prototyping</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="projectType">Project Type</label>
-            <select id="projectType">
-              <option value="2d">2D Animation</option>
-              <option value="3d">3D Animation</option>
-              <option value="mixed">Mixed Media</option>
-            </select>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button class="btn-secondary" id="cancelProject">Cancel</button>
-        <button class="btn-primary" id="createProject">Create Project</button>
-      </div>
-    </div>
-  </div>
-
-  <script src="js/auth.js"></script>
-  <script src="js/app.js"></script>
-  <script src="js/projects.js"></script>
-</body>
-</html>
-
-
+              <o
