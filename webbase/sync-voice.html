@@ -671,7 +671,7 @@
       <div class="video-container">
         <video id="resultVideo" controls loop>
           <!-- Placeholder video for demo purposes -->
-          <source src="media/SyncVoice/Untitled design-4.mp4" type="video/mp4">
+          <source src="media/SyncVoice/sync-voice-demo-output.mp4" type="video/mp4">
           Your browser does not support the video tag.
         </video>
       </div>
@@ -719,7 +719,7 @@
 
     function loadSampleData() {
       // Load sample character video
-      const sampleVideo = 'media/SyncVoice/Untitled design-3.mp4';
+      const sampleVideo = 'media/SyncVoice/sync-voice-demo-input.mp4';
       fetch(sampleVideo)
         .then(response => response.blob())
         .then(blob => {
@@ -1029,7 +1029,7 @@
 
     document.getElementById('downloadBtn').addEventListener('click', () => {
       const link = document.createElement('a');
-      link.href = 'media/SyncVoice/Untitled design-4.mp4';
+      link.href = 'media/SyncVoice/sync-voice-demo-output.mp4';
       link.download = 'synced-video.mp4';
       link.click();
     });
