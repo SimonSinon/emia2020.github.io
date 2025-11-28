@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ProtoAnimate | Ai-mate</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <style>
+    .tool-hero {
+      padding: 6rem 2rem 4rem;
+      text-align: center;
+      background: linear-gradient(135deg, #fff 0%, #f5f5f5 100%);
+    }
+    .tool-hero h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      color: var(--color-text-primary);
+    }
+    .tool-hero p {
+      font-size: 1.25rem;
+      color: var(--color-text-secondary);
+      max-width: 600px;
+      margin: 0 auto 2rem;
+    }
+    .demo-container {
+      max-width: 900px;
+      margin: 0 auto 4rem;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+      background: #000;
+    }
+    .demo-video {
+      width: 100%;
+      display: block;
+    }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto 4rem;
+      padding: 0 2rem;
+    }
+    .feature-item {
+      background: #fff;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+    .feature-item h3 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: var(--color-primary);
+    }
+    .cta-section {
+      text-align: center;
+      padding: 4rem 2rem;
+      background: var(--color-bg-secondary);
+    }
+    .btn-large {
+      display: inline-block;
+      padding: 1rem 2.5rem;
+      background: var(--color-accent);
+      color: #fff;
+      text-decoration: none;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      transition: transform 0.2s;
+    }
+    .btn-large:hover {
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body>
+  <header class="hero" style="min-height: auto; padding-bottom: 0;">
+    <nav class="nav">
+      <a class="logo" href="index.html">
+        <img src="media/flyingmarshmallow_2d.jpeg" alt="Flying Marshmallow" class="logo-img" />
+        <span>Ai-mate</span>
+      </a>
+      <div class="nav-links">
+        <a href="index.html#tools">AI Tools</a>
+        <a href="index.html#about">About</a>
+        <a href="index.html#team">Team</a>
+      </div>
+      <a href="login.html" class="nav-cta">Sign In</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="tool-hero">
+      <div class="tool-icon" style="font-size: 4rem; margin-bottom: 1rem;">⚡</div>
+      <h1>ProtoAnimate</h1>
+      <p>Rapidly prototype animations from simple sketches or text descriptions. Turn ideas into motion in seconds.</p>
+    </section>
+
+    <section class="demo-container">
+      <video class="demo-video" controls autoplay loop muted>
+        <source src="media/ProtoAnimate/Untitled design-2.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </section>
+
+    <section class="features-grid">
+      <div class="feature-item">
+        <h3>Rapid Prototyping</h3>
+        <p>Transform static sketches into dynamic animations instantly. Perfect for storyboarding and quick iteration.</p>
+      </div>
+      <div class="feature-item">
+        <h3>Style Transfer</h3>
+        <p>Apply different artistic styles to your animations while maintaining the core motion and structure of your prototype.</p>
+      </div>
+      <div class="feature-item">
+        <h3>Motion Control</h3>
+        <p>Fine-tune the speed, fluidity, and physics of your animations with intuitive controls designed for creators.</p>
+      </div>
+    </section>
+
+    <section class="cta-section">
+      <h2>Start prototyping today</h2>
+      <p style="margin-bottom: 2rem; color: var(--color-text-secondary);">Turn your sketches into stories.</p>
+      <a href="proto-animate.html" class="btn-large">Try ProtoAnimate Now</a>
+    </section>
+  </main>
+
+  <footer style="background: #333; color: #fff; padding: 2rem; text-align: center;">
+    <p>&copy; 2025 Flying Marshmallow. All rights reserved.</p>
+  </footer>
+</body>
+</html>
