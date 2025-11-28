@@ -94,7 +94,7 @@
     <section class="tool-hero">
       <div class="tool-icon" style="font-size: 4rem; margin-bottom: 1rem;">🎬</div>
       <h1>AI-nimate</h1>
-      <p>Transform static images into smooth animations with AI-powered frame interpolation and super-resolution.</p>
+      <p>Generate smooth animation between keyframes with AI-powered in-betweening and frame rate boosting.</p>
     </section>
 
     <section class="demo-container">
@@ -106,16 +106,16 @@
 
     <section class="features-grid">
       <div class="feature-item">
-        <h3>Frame Interpolation</h3>
-        <p>Transform your animation from 24/30fps to buttery-smooth 60fps with a single click. Our AI weaves perfect intermediate frames, making every movement flow like silk.</p>
+        <h3>Smart In-Betweening</h3>
+        <p>Upload a start and end frame, and watch as AI fills in the gaps. Create complex movements from simple key poses instantly without manual in-betweening.</p>
       </div>
       <div class="feature-item">
-        <h3>Super-Resolution</h3>
-        <p>Watch your creations bloom in stunning detail. AI-powered upscaling brings crystal-clear sharpness to every frame, turning good into gorgeous.</p>
+        <h3>Frame Rate Boosting</h3>
+        <p>Take your animations to the next level by converting them to 60fps or even 120fps. Our AI predicts intermediate frames for ultra-fluid motion.</p>
       </div>
       <div class="feature-item">
-        <h3>Smooth Motion</h3>
-        <p>Eliminate stutter and jitter. Our advanced algorithms analyze motion vectors to ensure fluid transitions between every frame.</p>
+        <h3>Motion Control</h3>
+        <p>Fine-tune the smoothness and interpolation curve to get exactly the timing and weight you need for your character's movement.</p>
       </div>
     </section>
 
@@ -129,5 +129,20 @@
   <footer style="background: #333; color: #fff; padding: 2rem; text-align: center;">
     <p>&copy; 2025 Flying Marshmallow. All rights reserved.</p>
   </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const tryBtn = document.querySelector('.btn-large');
+      if (tryBtn) {
+        tryBtn.addEventListener('click', (e) => {
+          const isLoggedIn = sessionStorage.getItem('isLoggedIn');
+          if (!isLoggedIn) {
+            e.preventDefault();
+            window.location.href = 'login.html';
+          }
+        });
+      }
+    });
+  </script>
 </body>
 </html>

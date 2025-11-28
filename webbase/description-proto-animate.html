@@ -129,5 +129,20 @@
   <footer style="background: #333; color: #fff; padding: 2rem; text-align: center;">
     <p>&copy; 2025 Flying Marshmallow. All rights reserved.</p>
   </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const tryBtn = document.querySelector('.btn-large');
+      if (tryBtn) {
+        tryBtn.addEventListener('click', (e) => {
+          const isLoggedIn = sessionStorage.getItem('isLoggedIn');
+          if (!isLoggedIn) {
+            e.preventDefault();
+            window.location.href = 'login.html';
+          }
+        });
+      }
+    });
+  </script>
 </body>
 </html>

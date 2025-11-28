@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
       
       // Show a demo message about the AI tool
       const messages = {
-        "ai-nimate": "AI-nimate: Animation Enhancement Tool\n\n• Frame Interpolation: Upgrade from 24/30fps to 60fps with one click\n• Super-Resolution: AI-powered upscaling for sharper visuals\n\nPerfect for creating smooth, high-quality animations.",
+        "ai-nimate": "AI-nimate: Smart In-Betweening Tool\n\n• Keyframe Interpolation: Generate smooth motion between start and end frames\n• Frame Rate Boosting: Upgrade to 60fps or 120fps for fluid motion\n\nPerfect for automating in-betweening and smoothing animations.",
         "sync-voice": "SyncYourVoice: Automated Lip-Sync & Voice Matching\n\n• Natural lip movements synced to voice\n• Context-aware facial expressions\n• Auto-generated head movements reflecting emotion\n\nSeamlessly integrate voice with animation.",
         "proto-animate": "ProtoAnimate: AI-Driven Prototyping Tool\n\n• Rapid prototype generation from sketches\n• AI motion sequences from descriptions\n• Ethical content creation (based on your own works)\n\nJumpstart your animation projects with AI."
       };

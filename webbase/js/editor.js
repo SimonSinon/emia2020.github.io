@@ -17,9 +17,9 @@ const animationFunctions = [
   {
     id: "frame-interpolation",
     title: "AI-nimate",
-    subtitle: "Frame Interpolation & Super-Resolution",
+    subtitle: "Smart In-Betweening & Frame Boosting",
     icon: "🎬",
-    description: "One-click frame rate upgrade (24/30fps → 60fps) and AI-powered super-resolution upscaling for smoother, sharper animations.",
+    description: "Generate smooth intermediate frames between keyframes and boost frame rates (up to 120fps) for ultra-fluid animations.",
     accentColor: "#1f6feb"
   },
   {
