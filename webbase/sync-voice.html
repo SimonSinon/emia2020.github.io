@@ -727,6 +727,16 @@
           handleCharacterUpload(file);
         })
         .catch(err => console.log("Sample video not found or error loading"));
+
+      // Load sample audio
+      const sampleAudio = 'media/SyncVoice/sync-voice-demo-audio.mp3';
+      fetch(sampleAudio)
+        .then(response => response.blob())
+        .then(blob => {
+          const file = new File([blob], "sample-voice.mp3", { type: "audio/mp3" });
+          handleAudioUpload(file);
+        })
+        .catch(err => console.log("Sample audio not found or error loading"));
     }
 
     // File upload handlers - Character
