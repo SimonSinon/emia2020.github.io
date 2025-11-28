@@ -30,7 +30,7 @@ Ai-mate is a comprehensive AI-powered platform designed to revolutionize animati
 
 ### Files
 ```
-web basee/
+webbase/
 ├── index.html          # Landing page
 ├── login.html          # Login page
 ├── register.html       # Registration page
