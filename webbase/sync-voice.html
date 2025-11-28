@@ -696,6 +696,7 @@
     let characterFile = null;
     let audioFile = null;
     let isProcessing = false;
+    let audioPlayer = new Audio();
 
     // DOM Elements
     const characterUploadArea = document.getElementById('characterUploadArea');
@@ -704,18 +705,55 @@
     const audioInput = document.getElementById('audioInput');
     const generateBtn = document.getElementById('generateBtn');
     const resultSection = document.getElementById('resultSection');
+    const resultVideo = document.getElementById('resultVideo');
     const processingOverlay = document.getElementById('processingOverlay');
     const progressFill = document.getElementById('progressFill');
     const progressText = document.getElementById('progressText');
     const strengthSlider = document.getElementById('strengthSlider');
     const strengthValue = document.getElementById('strengthValue');
 
+    // Initialize with sample data
+    document.addEventListener('DOMContentLoaded', () => {
+      loadSampleData();
+    });
+
+    function loadSampleData() {
+      // Load sample character video
+      const sampleVideo = 'media/SyncVoice/Untitled design-3.mp4';
+      fetch(sampleVideo)
+        .then(response => response.blob())
+        .then(blob => {
+          const file = new File([blob], "sample-character.mp4", { type: "video/mp4" });
+          handleCharacterUpload(file);
+        })
+        .catch(err => console.log("Sample video not found or error loading"));
+    }
+
     // File upload handlers - Character
     characterUploadArea.addEventListener('click', (e) => {
       if (!e.target.classList.contains('remove-file-btn')) {
-        characterInput.click();
+        // If input was removed from DOM, we need to recreate it or handle it
+        // But since we replace innerHTML, the original input is gone.
+        // We should use the one in the DOM if it exists, or create one.
+        const input = document.getElementById('characterInput');
+        if (input) input.click();
       }
     });
+
+    // Re-attach listener helper
+    function attachCharacterListener() {
+        const input = document.getElementById('characterInput');
+        if (input) {
+            input.addEventListener('change', (e) => {
+                if (e.target.files[0]) {
+                    handleCharacterUpload(e.target.files[0]);
+                }
+            });
+        }
+    }
+    
+    // Initial attach
+    attachCharacterListener();
 
     characterInput.addEventListener('change', (e) => {
       if (e.target.files[0]) {
@@ -781,21 +819,30 @@
           <p>Image or Video (MP4, PNG, JPG)</p>
         </div>
       `;
-      // Re-attach listener
-      document.getElementById('characterInput').addEventListener('change', (e) => {
-        if (e.target.files[0]) {
-          handleCharacterUpload(e.target.files[0]);
-        }
-      });
+      attachCharacterListener();
       updateSteps();
     };
 
     // File upload handlers - Audio
     audioUploadArea.addEventListener('click', (e) => {
       if (!e.target.classList.contains('remove-file-btn')) {
-        audioInput.click();
+        const input = document.getElementById('audioInput');
+        if (input) input.click();
       }
     });
+
+    function attachAudioListener() {
+        const input = document.getElementById('audioInput');
+        if (input) {
+            input.addEventListener('change', (e) => {
+                if (e.target.files[0]) {
+                    handleAudioUpload(e.target.files[0]);
+                }
+            });
+        }
+    }
+    
+    attachAudioListener();
 
     audioInput.addEventListener('change', (e) => {
       if (e.target.files[0]) {
@@ -831,11 +878,14 @@
       const reader = new FileReader();
       reader.onload = (event) => {
         audioFile = event.target.result;
+        audioPlayer.src = audioFile; // Set audio source
+        
         audioUploadArea.classList.add('has-file');
         audioUploadArea.innerHTML = `
           <div class="audio-preview">
             <div class="audio-icon">🎵</div>
             <div style="font-weight: 500;">${file.name}</div>
+            <audio controls src="${audioFile}" style="margin-top: 1rem; width: 80%;"></audio>
           </div>
           <button class="remove-file-btn" onclick="removeAudio(event)">×</button>
         `;
@@ -847,6 +897,7 @@
     window.removeAudio = function(e) {
       e.stopPropagation();
       audioFile = null;
+      audioPlayer.src = "";
       audioUploadArea.classList.remove('has-file');
       audioUploadArea.innerHTML = `
         <input type="file" id="audioInput" accept="audio/*" style="display:none" />
@@ -856,12 +907,7 @@
           <p>MP3, WAV, AAC</p>
         </div>
       `;
-      // Re-attach listener
-      document.getElementById('audioInput').addEventListener('change', (e) => {
-        if (e.target.files[0]) {
-          handleAudioUpload(e.target.files[0]);
-        }
-      });
+      attachAudioListener();
       updateSteps();
     };
 
@@ -945,16 +991,40 @@
       resultSection.style.display = 'block';
       resultSection.scrollIntoView({ behavior: 'smooth' });
       
-      // Play video
-      const video = document.getElementById('resultVideo');
-      video.play();
+      // Play video and audio
+      resultVideo.play();
+      audioPlayer.currentTime = 0;
+      audioPlayer.play();
     }
+    
+    // Sync audio with video
+    resultVideo.addEventListener('play', () => {
+        if (audioFile) audioPlayer.play();
+    });
+    
+    resultVideo.addEventListener('pause', () => {
+        if (audioFile) audioPlayer.pause();
+    });
+    
+    resultVideo.addEventListener('seeked', () => {
+        if (audioFile) audioPlayer.currentTime = resultVideo.currentTime;
+    });
+    
+    resultVideo.addEventListener('ended', () => {
+        if (audioFile) {
+            audioPlayer.pause();
+            audioPlayer.currentTime = 0;
+        }
+    });
 
     // Result actions
     document.getElementById('replayBtn').addEventListener('click', () => {
-      const video = document.getElementById('resultVideo');
-      video.currentTime = 0;
-      video.play();
+      resultVideo.currentTime = 0;
+      resultVideo.play();
+      if (audioFile) {
+          audioPlayer.currentTime = 0;
+          audioPlayer.play();
+      }
     });
 
     document.getElementById('downloadBtn').addEventListener('click', () => {
