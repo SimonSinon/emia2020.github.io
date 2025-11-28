@@ -51,10 +51,6 @@ webbase/
 
 This is a presentation prototype designed to demonstrate the user experience and workflow of the Ai-mate platform. Open `index.html` in a web browser to start the demo.
 
-### Demo Account Credentials
-- **Email:** `demo@ai-mate.com`
-- **Password:** `demo123`
-
 ### Navigation Flow
 1. Start at landing page → Learn about the 3 AI tools
 2. Click "Get Started" or "Sign In" → Access login/register pages
