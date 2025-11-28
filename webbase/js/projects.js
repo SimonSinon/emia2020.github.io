@@ -231,7 +231,4 @@ function initializeVideoThumbnails() {
       card.addEventListener('mouseleave', () => {
         video.pause();
         video.currentTime = 0;
-      });
-    }
-  });
-}
+    

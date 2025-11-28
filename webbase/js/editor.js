@@ -1673,3 +1673,4 @@ function switchToVideoMode() {
 document.addEventListener("DOMContentLoaded", () => {
   initializeResizablePanels();
 });
+         

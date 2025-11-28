@@ -192,6 +192,17 @@ document.addEventListener('DOMContentLoaded', () => {
       
       handleLogin(email, password, remember);
     });
+
+    // Demo login button handler
+    const demoLoginBtn = document.getElementById('demoLoginBtn');
+    if (demoLoginBtn) {
+      demoLoginBtn.addEventListener('click', () => {
+        document.getElementById('email').value = DEMO_ACCOUNT.email;
+        document.getElementById('password').value = DEMO_ACCOUNT.password;
+        // Optional: Auto-submit
+        // loginForm.dispatchEvent(new Event('submit'));
+      });
+    }
   }
   
   // Register form handler
@@ -199,16 +210,8 @@ document.addEventListener('DOMContentLoaded', () => {
   if (registerForm) {
     registerForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      
-      const formData = {
-        fullName: document.getElementById('fullName').value.trim(),
-        email: document.getElementById('email').value.trim(),
-        password: document.getElementById('password').value,
-        confirmPassword: document.getElementById('confirmPassword').value,
-        terms: document.getElementById('terms').checked
-      };
-      
-      handleRegister(formData);
+      showMessage('error', 'Registration is currently closed. Please use the demo account.');
+      return false;
     });
   }
   
