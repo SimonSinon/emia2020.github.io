@@ -1049,7 +1049,19 @@
       loadSampleData();
     });
 
-        function loadSampleData() {
+    function handleImageUpload(imageSrc, type) {
+      if (type === 'start') {
+        startFrame = imageSrc;
+        updateUploadCard(startFrameCard, startFrame, 'Start Frame');
+      } else {
+        endFrame = imageSrc;
+        updateUploadCard(endFrameCard, endFrame, 'End Frame');
+      }
+      checkGenerateButton();
+      updateSteps();
+    }
+
+    function loadSampleData() {
       // Load sample start frame
       const startImg = new Image();
       startImg.src = '../../media/CharacterAnimation/ScreenshotSeries/image_copy_0.png';
