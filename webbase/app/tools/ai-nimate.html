@@ -901,7 +901,7 @@
             <div class="video-container">
         <video id="resultVideo" controls loop>
           <!-- Placeholder video for demo purposes -->
-          <source src="../../media/CharacterAnimation/Untitled design.mp4" type="video/mp4">
+          <source src="../../media/CharacterAnimation/Untitled_design.mp4" type="video/mp4">
           Your browser does not support the video tag.
         </video>
       </div>
@@ -1052,14 +1052,14 @@
         function loadSampleData() {
       // Load sample start frame
       const startImg = new Image();
-      startImg.src = '../../media/CharacterAnimation/ScreenshotSeries/image copy 0.png';
+      startImg.src = '../../media/CharacterAnimation/ScreenshotSeries/image_copy_0.png';
       startImg.onload = () => {
         handleImageUpload(startImg.src, 'start');
       };
 
       // Load sample end frame
       const endImg = new Image();
-      endImg.src = '../../media/CharacterAnimation/ScreenshotSeries/image copy 20.png';
+      endImg.src = '../../media/CharacterAnimation/ScreenshotSeries/image_copy_20.png';
       endImg.onload = () => {
         handleImageUpload(endImg.src, 'end');
       };
@@ -1260,7 +1260,7 @@
       container.innerHTML = '';
       
       // Use frames from the ScreenshotSeries folder for demo purposes
-      // Available frames: image copy 0.png to image copy 20.png
+      // Available frames: image_copy_0.png to image_copy_20.png
       // We'll show 7 frames to provide a better preview
       const totalAvailableFrames = 21; // 0 to 20
       const framesToShow = 7;
@@ -1273,7 +1273,7 @@
         // Calculate which image index to use
         // Map i (0 to 6) to frameIndex (0 to 20)
         const frameIndex = Math.round((i / (framesToShow - 1)) * (totalAvailableFrames - 1));
-        const filename = `image copy ${frameIndex}.png`;
+        const filename = `image_copy_${frameIndex}.png`;
         
         const imgSrc = `../../media/CharacterAnimation/ScreenshotSeries/${filename}`;
         
@@ -1302,7 +1302,7 @@
 
     // Download buttons
     document.getElementById('downloadMp4Btn').addEventListener('click', () => {
-      downloadFile('../../media/CharacterAnimation/Untitled design.mp4', 'ai-animated-output.mp4');
+      downloadFile('../../media/CharacterAnimation/Untitled_design.mp4', 'ai-animated-output.mp4');
       showNotification('Downloading MP4 video...');
     });
 
