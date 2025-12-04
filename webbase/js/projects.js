@@ -130,7 +130,7 @@ document.addEventListener("DOMContentLoaded", () => {
     sessionStorage.setItem("currentProjectName", projectName);
     
     // Navigate to project editor
-    window.location.href = projectUrl || "project.html";
+    window.location.href = projectUrl || "editor.html";
   }
 
   // View toggle (grid/list)

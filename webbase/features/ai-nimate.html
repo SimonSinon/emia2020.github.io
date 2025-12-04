@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ProtoAnimate | Ai-mate</title>
-  <link rel="stylesheet" href="css/styles.css" />
+  <title>AI-nimate | Ai-mate</title>
+  <link rel="stylesheet" href="../css/styles.css" />
   <style>
     .tool-hero {
       padding: 6rem 2rem 4rem;
@@ -92,37 +92,37 @@
 
   <main>
     <section class="tool-hero">
-      <div class="tool-icon" style="font-size: 4rem; margin-bottom: 1rem;">⚡</div>
-      <h1>ProtoAnimate</h1>
-      <p>Rapidly prototype animations from simple sketches or text descriptions. Turn ideas into motion in seconds.</p>
+      <div class="tool-icon" style="font-size: 4rem; margin-bottom: 1rem;">🎬</div>
+      <h1>AI-nimate</h1>
+      <p>Generate smooth animation between keyframes with AI-powered in-betweening and frame rate boosting.</p>
     </section>
 
     <section class="demo-container">
       <video class="demo-video" controls autoplay loop muted>
-        <source src="media/ProtoAnimate/Untitled design-2.mp4" type="video/mp4">
+        <source src="../media/CharacterAnimation/Untitled design.mp4" type="video/mp4">
         Your browser does not support the video tag.
       </video>
     </section>
 
     <section class="features-grid">
       <div class="feature-item">
-        <h3>Rapid Prototyping</h3>
-        <p>Transform static sketches into dynamic animations instantly. Perfect for storyboarding and quick iteration.</p>
+        <h3>Smart In-Betweening</h3>
+        <p>Upload a start and end frame, and watch as AI fills in the gaps. Create complex movements from simple key poses instantly without manual in-betweening.</p>
       </div>
       <div class="feature-item">
-        <h3>Style Transfer</h3>
-        <p>Apply different artistic styles to your animations while maintaining the core motion and structure of your prototype.</p>
+        <h3>Frame Rate Boosting</h3>
+        <p>Take your animations to the next level by converting them to 60fps or even 120fps. Our AI predicts intermediate frames for ultra-fluid motion.</p>
       </div>
       <div class="feature-item">
         <h3>Motion Control</h3>
-        <p>Fine-tune the speed, fluidity, and physics of your animations with intuitive controls designed for creators.</p>
+        <p>Fine-tune the smoothness and interpolation curve to get exactly the timing and weight you need for your character's movement.</p>
       </div>
     </section>
 
     <section class="cta-section">
-      <h2>Start prototyping today</h2>
-      <p style="margin-bottom: 2rem; color: var(--color-text-secondary);">Turn your sketches into stories.</p>
-      <a href="proto-animate.html" class="btn-large">Try ProtoAnimate Now</a>
+      <h2>Ready to enhance your animations?</h2>
+      <p style="margin-bottom: 2rem; color: var(--color-text-secondary);">Join thousands of creators using AI-nimate today.</p>
+      <a href="../app/tools/ai-nimate.html" class="btn-large">Try AI-nimate Now</a>
     </section>
   </main>
 
@@ -138,7 +138,7 @@
           const isLoggedIn = sessionStorage.getItem('isLoggedIn');
           if (!isLoggedIn) {
             e.preventDefault();
-            window.location.href = 'login.html';
+            window.location.href = '../auth/login.html';
           }
         });
       }

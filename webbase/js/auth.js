@@ -13,14 +13,17 @@ function checkAuth() {
   const currentPage = window.location.pathname;
   
   // If not logged in and trying to access protected pages
-  if (!isLoggedIn && (currentPage.includes('projects.html') || currentPage.includes('project.html'))) {
-    window.location.href = 'login.html';
+  if (!isLoggedIn && (currentPage.includes('dashboard.html') || currentPage.includes('editor.html') || currentPage.includes('tools/'))) {
+    let loginPath = 'auth/login.html';
+    if (currentPage.includes('/app/')) loginPath = '../auth/login.html';
+    if (currentPage.includes('/app/tools/')) loginPath = '../../auth/login.html';
+    window.location.href = loginPath;
     return false;
   }
   
   // If logged in and trying to access auth pages
   if (isLoggedIn && (currentPage.includes('login.html') || currentPage.includes('register.html'))) {
-    window.location.href = 'projects.html';
+    window.location.href = '../app/dashboard.html';
     return false;
   }
   
@@ -46,7 +49,7 @@ function handleLogin(email, password, remember) {
     
     // Redirect to projects page after a short delay
     setTimeout(() => {
-      window.location.href = 'projects.html';
+      window.location.href = '../app/dashboard.html';
     }, 800);
     
     return true;
@@ -90,7 +93,7 @@ function handleRegister(formData) {
   showMessage('success', 'Account created successfully! Redirecting...');
   
   setTimeout(() => {
-    window.location.href = 'projects.html';
+    window.location.href = '../app/dashboard.html';
   }, 800);
   
   return true;

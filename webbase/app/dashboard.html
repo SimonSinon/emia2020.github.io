@@ -4,8 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Ai-mate - Your AI Tools Dashboard</title>
-  <link rel="stylesheet" href="css/styles.css" />
-  <link rel="stylesheet" href="css/app.css" />
+  <link rel="stylesheet" href="../css/styles.css" />
+  <link rel="stylesheet" href="../css/app.css" />
 </head>
 <body class="app-body">
   <header class="app-header">
@@ -26,19 +26,19 @@
     <div class="ai-tools-section">
       <h3>AI Tools Available</h3>
       <div class="ai-tools-grid">
-        <a href="character-animation.html" class="ai-tool-card active-tool" data-tool="ai-nimate" style="text-decoration: none; color: inherit; cursor: pointer; position: relative; overflow: hidden;">
+        <a href="tools/ai-nimate.html" class="ai-tool-card active-tool" data-tool="ai-nimate" style="text-decoration: none; color: inherit; cursor: pointer; position: relative; overflow: hidden;">
           <div class="tool-header">🎬</div>
           <h4>AI-nimate</h4>
           <p>Transform static images into smooth animations with AI-powered frame interpolation</p>
           <span style="position: absolute; top: 8px; right: 8px; background: var(--color-accent); color: white; font-size: 0.65rem; padding: 2px 8px; border-radius: 10px; font-weight: 600;">Try Now</span>
         </a>
-        <a href="sync-voice.html" class="ai-tool-card active-tool" data-tool="sync-voice" style="text-decoration: none; color: inherit; cursor: pointer; position: relative; overflow: hidden;">
+        <a href="tools/sync-voice.html" class="ai-tool-card active-tool" data-tool="sync-voice" style="text-decoration: none; color: inherit; cursor: pointer; position: relative; overflow: hidden;">
           <div class="tool-header">🎤</div>
           <h4>SyncYourVoice</h4>
           <p>Automatically sync character lip movements to any audio with realistic expressions</p>
           <span style="position: absolute; top: 8px; right: 8px; background: #1976d2; color: white; font-size: 0.65rem; padding: 2px 8px; border-radius: 10px; font-weight: 600;">Try Now</span>
         </a>
-        <a href="proto-animate.html" class="ai-tool-card active-tool" data-tool="proto-animate" style="text-decoration: none; color: inherit; cursor: pointer; position: relative; overflow: hidden;">
+        <a href="tools/proto-animate.html" class="ai-tool-card active-tool" data-tool="proto-animate" style="text-decoration: none; color: inherit; cursor: pointer; position: relative; overflow: hidden;">
           <div class="tool-header">✨</div>
           <h4>ProtoAnimate</h4>
           <p>Turn rough sketches and text descriptions into polished animation prototypes</p>
@@ -60,10 +60,10 @@
     </div>
 
     <div class="projects-grid" id="projectsGrid">
-      <div class="project-card" data-project-id="1" data-project-url="project.html">
+      <div class="project-card" data-project-id="1" data-project-url="editor.html">
         <div class="project-thumbnail">
           <video class="project-video-thumb" muted loop>
-            <source src="media/CharacterAnimation/Untitled design.mp4" type="video/mp4">
+            <source src="../media/CharacterAnimation/Untitled design.mp4" type="video/mp4">
           </video>
         </div>
         <div class="project-info">
@@ -79,7 +79,7 @@
       <div class="project-card" data-project-id="2" data-project-url="project-proto.html">
         <div class="project-thumbnail">
           <video class="project-video-thumb" muted loop>
-            <source src="media/ProtoAnimate/Untitled design-2.mp4" type="video/mp4">
+            <source src="../media/ProtoAnimate/Untitled design-2.mp4" type="video/mp4">
           </video>
         </div>
         <div class="project-info">
@@ -92,10 +92,10 @@
         </div>
       </div>
 
-      <div class="project-card" data-project-id="3" data-project-url="sync-voice.html">
+      <div class="project-card" data-project-id="3" data-project-url="tools/sync-voice.html">
         <div class="project-thumbnail">
           <video class="project-video-thumb" muted loop>
-            <source src="media/SyncVoice/sync-voice-demo-input.mp4" type="video/mp4">
+            <source src="../media/SyncVoice/sync-voice-demo-input.mp4" type="video/mp4">
           </video>
         </div>
         <div class="project-info">
@@ -160,9 +160,9 @@
     </div>
   </div>
 
-  <script src="js/auth.js"></script>
-  <script src="js/app.js"></script>
-  <script src="js/projects.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/projects.js"></script>
 </body>
 </html>
 

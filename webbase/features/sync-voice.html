@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SyncYourVoice | Ai-mate</title>
-  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="../css/styles.css" />
   <style>
     .tool-hero {
       padding: 6rem 2rem 4rem;
@@ -99,7 +99,7 @@
 
     <section class="demo-container">
       <video class="demo-video" controls autoplay loop muted>
-        <source src="media/SyncVoice/sync-voice-demo-output.mp4" type="video/mp4">
+        <source src="../media/SyncVoice/sync-voice-demo-output.mp4" type="video/mp4">
         Your browser does not support the video tag.
       </video>
     </section>
@@ -122,7 +122,7 @@
     <section class="cta-section">
       <h2>Ready to bring your characters to life?</h2>
       <p style="margin-bottom: 2rem; color: var(--color-text-secondary);">Experience the magic of automated lip-sync.</p>
-      <a href="sync-voice.html" class="btn-large">Try SyncYourVoice Now</a>
+      <a href="../app/tools/sync-voice.html" class="btn-large">Try SyncYourVoice Now</a>
     </section>
   </main>
 
@@ -138,7 +138,7 @@
           const isLoggedIn = sessionStorage.getItem('isLoggedIn');
           if (!isLoggedIn) {
             e.preventDefault();
-            window.location.href = 'login.html';
+            window.location.href = '../auth/login.html';
           }
         });
       }
