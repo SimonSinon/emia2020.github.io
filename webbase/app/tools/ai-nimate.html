@@ -898,9 +898,10 @@
         </div>
       </div>
 
-      <div class="video-container">
+            <div class="video-container">
         <video id="resultVideo" controls loop>
-          <source src="media/CharacterAnimation/Untitled design.mp4" type="video/mp4">
+          <!-- Placeholder video for demo purposes -->
+          <source src="../../media/CharacterAnimation/Untitled design.mp4" type="video/mp4">
           Your browser does not support the video tag.
         </video>
       </div>
@@ -1048,25 +1049,19 @@
       loadSampleImages();
     });
 
-    function loadSampleImages() {
-      // Set start frame with first sample image
+        function loadSampleData() {
+      // Load sample start frame
       const startImg = new Image();
-      startImg.src = 'media/CharacterAnimation/ScreenshotSeries/image copy 0.png';
+      startImg.src = '../../media/CharacterAnimation/ScreenshotSeries/image copy 0.png';
       startImg.onload = () => {
-        startFrame = startImg.src;
-        updateUploadCard(startFrameCard, startImg.src, 'Start Frame');
-        checkGenerateButton();
-        updateSteps();
+        handleImageUpload(startImg.src, 'start');
       };
 
-      // Set end frame with second sample image
+      // Load sample end frame
       const endImg = new Image();
-      endImg.src = 'media/CharacterAnimation/ScreenshotSeries/image copy 20.png';
+      endImg.src = '../../media/CharacterAnimation/ScreenshotSeries/image copy 20.png';
       endImg.onload = () => {
-        endFrame = endImg.src;
-        updateUploadCard(endFrameCard, endImg.src, 'End Frame');
-        checkGenerateButton();
-        updateSteps();
+        handleImageUpload(endImg.src, 'end');
       };
     }
 
@@ -1280,7 +1275,7 @@
         const frameIndex = Math.round((i / (framesToShow - 1)) * (totalAvailableFrames - 1));
         const filename = `image copy ${frameIndex}.png`;
         
-        const imgSrc = `media/CharacterAnimation/ScreenshotSeries/${filename}`;
+        const imgSrc = `../../media/CharacterAnimation/ScreenshotSeries/${filename}`;
         
         const frameItem = document.createElement('div');
         frameItem.className = `frame-item${isInterpolated ? ' interpolated' : ''}`;
@@ -1307,7 +1302,7 @@
 
     // Download buttons
     document.getElementById('downloadMp4Btn').addEventListener('click', () => {
-      downloadFile('media/CharacterAnimation/Untitled design.mp4', 'ai-animated-output.mp4');
+      downloadFile('../../media/CharacterAnimation/Untitled design.mp4', 'ai-animated-output.mp4');
       showNotification('Downloading MP4 video...');
     });
 

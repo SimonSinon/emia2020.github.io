@@ -829,9 +829,10 @@
         </div>
       </div>
 
-      <div class="video-container">
+            <div class="video-container">
         <video id="resultVideo" controls loop>
-          <source src="media/ProtoAnimate/Untitled design-2.mp4" type="video/mp4">
+          <!-- Placeholder video for demo purposes -->
+          <source src="../../media/ProtoAnimate/Untitled design-2.mp4" type="video/mp4">
           Your browser does not support the video tag.
         </video>
       </div>
@@ -945,7 +946,7 @@
       
       // Load sample sketch
       const sketchImg = new Image();
-      sketchImg.src = 'media/ProtoAnimate/pencilsketchadjusted-6628750-2.jpeg';
+      sketchImg.src = '../../media/ProtoAnimate/pencilsketchadjusted-6628750-2.jpeg';
       sketchImg.onload = () => {
         sketchImage = sketchImg.src;
         updateUploadArea(sketchImg.src);
@@ -1130,7 +1131,7 @@
 
     // Download buttons
     document.getElementById('downloadMp4Btn').addEventListener('click', () => {
-      downloadFile('media/ProtoAnimate/Untitled design-2.mp4', 'proto-animate-output.mp4');
+      downloadFile('../../media/ProtoAnimate/Untitled design-2.mp4', 'proto-animate-output.mp4');
       showNotification('Downloading MP4 video...');
     });
 
