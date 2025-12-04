@@ -1291,7 +1291,7 @@ function setupUserMenu() {
   if (backToDashboard) {
     backToDashboard.addEventListener("click", () => {
       if (confirm("Are you sure you want to leave? Unsaved changes may be lost.")) {
-        window.location.href = "projects.html";
+        window.location.href = "dashboard.html";
       }
     });
   }
