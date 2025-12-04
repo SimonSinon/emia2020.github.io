@@ -2,6 +2,7 @@
 
 document.addEventListener("DOMContentLoaded", () => {
   const newProjectBtn = document.getElementById("newProjectBtn");
+  const logoutBtn = document.getElementById("logoutBtn");
   const newProjectModal = document.getElementById("newProjectModal");
   const closeModal = document.getElementById("closeModal");
   const cancelProject = document.getElementById("cancelProject");
@@ -180,6 +181,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Empty project card (create new)
   emptyProjectCard.addEventListener("click", openNewProjectModal);
+
+  // Logout button
+  if (logoutBtn) {
+    logoutBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      handleLogout();
+    });
+  }
 
   // Modal event listeners
   newProjectBtn.addEventListener("click", openNewProjectModal);

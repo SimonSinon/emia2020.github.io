@@ -107,7 +107,12 @@ function handleLogout() {
   sessionStorage.removeItem('currentProjectId');
   sessionStorage.removeItem('currentProjectName');
   
-  window.location.href = 'login.html';
+  const currentPage = window.location.pathname;
+  let loginPath = 'auth/login.html';
+  if (currentPage.includes('/app/')) loginPath = '../auth/login.html';
+  if (currentPage.includes('/app/tools/')) loginPath = '../../auth/login.html';
+  
+  window.location.href = loginPath;
 }
 
 // Show message function
