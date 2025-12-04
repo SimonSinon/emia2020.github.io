@@ -815,26 +815,18 @@
 
     <!-- Upload Section -->
     <div class="upload-section">
-      <div class="upload-card" id="startFrameCard">
-        <input type="file" id="startFrameInput" accept="image/*" />
-        <div class="upload-content">
-          <div class="upload-icon">🖼️</div>
-          <h3>Start Frame</h3>
-          <p>Click to upload or drag & drop</p>
-          <p style="margin-top: 0.5rem; font-size: 0.8rem;">PNG, JPG up to 10MB</p>
-        </div>
+      <div class="upload-card has-image" id="startFrameCard">
+        <input type="file" id="startFrameInput" accept="image/*" style="display:none" />
+        <img src="../../media/CharacterAnimation/ScreenshotSeries/image_copy_0.png" alt="Start Frame" class="uploaded-image" />
+        <div class="image-label">Start Frame ✓</div>
       </div>
 
       <div class="arrow-indicator">→</div>
 
-      <div class="upload-card" id="endFrameCard">
-        <input type="file" id="endFrameInput" accept="image/*" />
-        <div class="upload-content">
-          <div class="upload-icon">🖼️</div>
-          <h3>End Frame</h3>
-          <p>Click to upload or drag & drop</p>
-          <p style="margin-top: 0.5rem; font-size: 0.8rem;">PNG, JPG up to 10MB</p>
-        </div>
+      <div class="upload-card has-image" id="endFrameCard">
+        <input type="file" id="endFrameInput" accept="image/*" style="display:none" />
+        <img src="../../media/CharacterAnimation/ScreenshotSeries/image_copy_20.png" alt="End Frame" class="uploaded-image" />
+        <div class="image-label">End Frame ✓</div>
       </div>
     </div>
 
@@ -1024,8 +1016,8 @@
 
   <script>
     // State
-    let startFrame = null;
-    let endFrame = null;
+    let startFrame = '../../media/CharacterAnimation/ScreenshotSeries/image_copy_0.png';
+    let endFrame = '../../media/CharacterAnimation/ScreenshotSeries/image_copy_20.png';
     let isProcessing = false;
 
     // DOM Elements
@@ -1043,39 +1035,11 @@
     const smoothnessSlider = document.getElementById('smoothnessSlider');
     const smoothnessValue = document.getElementById('smoothnessValue');
 
-    // Initialize with sample images
+    // Initialize UI state
     document.addEventListener('DOMContentLoaded', () => {
-      // Load sample images automatically for demo
-      loadSampleData();
-    });
-
-    function handleImageUpload(imageSrc, type) {
-      if (type === 'start') {
-        startFrame = imageSrc;
-        updateUploadCard(startFrameCard, startFrame, 'Start Frame');
-      } else {
-        endFrame = imageSrc;
-        updateUploadCard(endFrameCard, endFrame, 'End Frame');
-      }
       checkGenerateButton();
       updateSteps();
-    }
-
-    function loadSampleData() {
-      // Load sample start frame
-      const startImg = new Image();
-      startImg.src = '../../media/CharacterAnimation/ScreenshotSeries/image_copy_0.png';
-      startImg.onload = () => {
-        handleImageUpload(startImg.src, 'start');
-      };
-
-      // Load sample end frame
-      const endImg = new Image();
-      endImg.src = '../../media/CharacterAnimation/ScreenshotSeries/image_copy_20.png';
-      endImg.onload = () => {
-        handleImageUpload(endImg.src, 'end');
-      };
-    }
+    });
 
     // File upload handlers
     startFrameCard.addEventListener('click', () => startFrameInput.click());
